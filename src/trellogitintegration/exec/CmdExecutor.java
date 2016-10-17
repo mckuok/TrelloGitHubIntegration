@@ -80,7 +80,7 @@ public class CmdExecutor {
     Process process = null;
     String stdOutput = "";
     String errOutput = "";
-    Throwable exception = null;
+    Exception exception = null;
     try {
       process = Runtime.getRuntime().exec(command, null, workingDir);
       
