@@ -74,7 +74,7 @@ public class CmdExecutor {
     }
     if (workingDir == null || !workingDir.isDirectory()) {
       throw new IllegalArgumentException("Working directory cannot be null and must"
-          + "be a directory.");
+          + " be a directory.");
     }
     
     Process process = null;

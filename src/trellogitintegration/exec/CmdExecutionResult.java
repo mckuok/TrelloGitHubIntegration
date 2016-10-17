@@ -9,7 +9,7 @@ public class CmdExecutionResult {
 
   private String stdOutput;
   private String errOutput;
-  private Throwable exception;
+  private Exception exception;
 
   /**
    * Creates an instance of the CmdExecutionResult
@@ -18,7 +18,7 @@ public class CmdExecutionResult {
    * @param exception Exception thrown during command execution, null if none 
    */
   public CmdExecutionResult(String stdOutput, String errOutput,
-      Throwable exception) {
+      Exception exception) {
     if (stdOutput == null || errOutput == null) {
       throw new IllegalArgumentException("Output cannot be null");
     }
@@ -36,7 +36,7 @@ public class CmdExecutionResult {
     return this.errOutput;
   }
 
-  public Throwable getException() {
+  public Exception getException() {
     return this.exception;
   }
 

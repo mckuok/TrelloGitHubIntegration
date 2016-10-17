@@ -6,7 +6,7 @@ package trellogitintegration.exec;
  * Created: Oct 16, 2016
  * @author Man Chon Kuok
  */
-public class CommandUnrecognizedException extends Throwable {
+public class CommandUnrecognizedException extends Exception {
   
   public CommandUnrecognizedException(String message) {
     super(message);
