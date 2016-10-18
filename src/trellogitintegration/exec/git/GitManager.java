@@ -69,6 +69,10 @@ public class GitManager {
     return this.runCommand(GitOperation.LOG);
   }
   
+  public boolean clone(String target) throws Exception {
+    return this.runCommand(GitOperation.CLONE, target);
+  }
+  
   private boolean runCommand(GitOperation operation) throws Exception {
     return this.runCommand(operation, "");
   }

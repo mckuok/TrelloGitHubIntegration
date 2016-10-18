@@ -6,6 +6,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,11 +27,13 @@ public class GitManagerTest {
     this.tempDirectory.mkdir();
     this.gitManager = new GitManager(this.tempDirectory);
     assertTrue(this.gitManager.init());
+    assertTrue(new File(this.tempDirectory, ".git").exists());
   }
   
   @After
   public void close() {
     deleteFolder(this.tempDirectory);
+    assertFalse(this.tempDirectory.exists());
   }
   
   @Test
@@ -61,6 +66,16 @@ public class GitManagerTest {
     assertTrue(this.gitManager.add(TEST_FILE));    
   }
   
+  @Test
+  public void cloneTest() throws Exception {
+    final String url = "https://github.com/mckuok/gitpractice";
+    final String repoName = "gitpractice";
+    
+    assertTrue(this.gitManager.clone(url));
+    File gitPracticeRepo = new File(this.tempDirectory, repoName);
+    assertTrue(gitPracticeRepo.exists());
+    assertTrue(new File(gitPracticeRepo, "README.md").exists());
+  }
   
   private void createFile() throws IOException {
     File newFile = new File(this.tempDirectory, TEST_FILE);
