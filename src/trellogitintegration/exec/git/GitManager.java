@@ -75,14 +75,8 @@ public class GitManager {
   
   private boolean runCommand(GitOperation operation, String argument) throws Exception {
     CmdExecutionResult result = CmdExecutor.sequentialExecute(String.format(operation.getCommand(), argument), this.workingDir);
-    String output = "";
     if (result.getException() == null) {
-      if (!result.getStdOutput().replace("\n", "").isEmpty()) {
-        output = result.getStdOutput();
-      } else {
-        output = result.getErrOutput();
-      }
-      return GitOperationValidator.validateOperation(operation, output);
+      return GitOperationValidator.validateOperation(operation, result.getOutput());
     } else {
       throw result.getException();
     }

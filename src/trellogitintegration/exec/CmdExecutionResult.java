@@ -7,33 +7,25 @@ package trellogitintegration.exec;
  */
 public class CmdExecutionResult {
 
-  private String stdOutput;
-  private String errOutput;
+  private String output;
   private Exception exception;
 
   /**
    * Creates an instance of the CmdExecutionResult
-   * @param stdOutput Output from Standard out, should not be null. 
-   * @param errOutput Output from Error stream, should not be null
+   * @param output Output from command, should not be null. 
    * @param exception Exception thrown during command execution, null if none 
    */
-  public CmdExecutionResult(String stdOutput, String errOutput,
-      Exception exception) {
-    if (stdOutput == null || errOutput == null) {
+  public CmdExecutionResult(String output, Exception exception) {
+    if (output == null) {
       throw new IllegalArgumentException("Output cannot be null");
     }
     
-    this.stdOutput = stdOutput;
-    this.errOutput = errOutput;
+    this.output = output;
     this.exception = exception;
   }
 
-  public String getStdOutput() {
-    return this.stdOutput;
-  }
-
-  public String getErrOutput() {
-    return this.errOutput;
+  public String getOutput() {
+    return this.output;
   }
 
   public Exception getException() {
@@ -42,8 +34,7 @@ public class CmdExecutionResult {
 
   @Override
   public String toString() {
-    return "CmdExecutionResult [stdOutput=" + this.stdOutput + ", errOutput="
-        + this.errOutput + "]";
+    return "CmdExecutionResult [stdOutput=" + this.output + "]";
   }
 
 }
