@@ -6,10 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,12 +65,20 @@ public class GitManagerTest {
   @Test
   public void cloneTest() throws Exception {
     final String url = "https://github.com/mckuok/gitpractice";
-    final String repoName = "gitpractice";
     
     assertTrue(this.gitManager.clone(url));
-    File gitPracticeRepo = new File(this.tempDirectory, repoName);
-    assertTrue(gitPracticeRepo.exists());
-    assertTrue(new File(gitPracticeRepo, "README.md").exists());
+    assertTrue(this.gitManager.getWorkingDirectory().exists());
+    assertTrue(new File(this.gitManager.getWorkingDirectory(), "README.md").exists());
+  }
+  
+  @Test
+  public void logTest() throws Exception {
+    final String url = "https://github.com/mckuok/gitpractice";
+    
+    assertTrue(this.gitManager.clone(url));
+    assertTrue(this.gitManager.getWorkingDirectory().exists());
+    assertTrue(new File(this.gitManager.getWorkingDirectory(), "README.md").exists());
+    assertFalse(this.gitManager.log().isEmpty());
   }
   
   private void createFile() throws IOException {
