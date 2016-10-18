@@ -8,6 +8,8 @@ package trellogitintegration.exec;
  */
 public class CommandUnrecognizedException extends Exception {
   
+  public static final String INVALID_PROGRAM_TEMPLATE = "Cannot run program";
+  
   public CommandUnrecognizedException(String message) {
     super(message);
   }

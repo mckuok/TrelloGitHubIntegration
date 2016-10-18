@@ -5,7 +5,7 @@ import java.io.File;
 import trellogitintegration.exec.CmdExecutionResult;
 import trellogitintegration.exec.CmdExecutor;
 import trellogitintegration.exec.CommandUnrecognizedException;
-import trellogitintegration.exec.git.GitConfigdException.GitExceptionType;
+import trellogitintegration.exec.git.GitConfigException.GitExceptionType;
 
 public class GitManager {
   
@@ -22,7 +22,7 @@ public class GitManager {
       runCommand(GitOperation.VERSION);
     } catch (Exception e) {
       if (e instanceof CommandUnrecognizedException) {
-        throw new GitConfigdException(GitExceptionType.NOT_INSTALLED);
+        throw new GitConfigException(GitExceptionType.NOT_INSTALLED);
       } else {
         throw e;
       }

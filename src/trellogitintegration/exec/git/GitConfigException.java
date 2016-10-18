@@ -1,8 +1,8 @@
 package trellogitintegration.exec.git;
 
-public class GitConfigdException extends Exception {
+public class GitConfigException extends Exception {
 
-  public GitConfigdException(GitExceptionType exceptionType) {
+  public GitConfigException(GitExceptionType exceptionType) {
     super(exceptionType.toString());
   }
   

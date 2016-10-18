@@ -19,8 +19,6 @@ import java.util.regex.Pattern;
  */
 public class CmdExecutor {
 
-  private static final String INVALID_PROGRAM_TEMPLATE = "Cannot run program";
-
   /**
    * Concurrently executes a terminal command in a different thread, non
    * blocking. This method is meant to be left alone when it is performing
@@ -105,7 +103,7 @@ public class CmdExecutor {
 
       output = stdRunnable.getOutput();
     } catch (IOException e) {
-      if (e.getMessage().contains(INVALID_PROGRAM_TEMPLATE)) {
+      if (e.getMessage().contains(CommandUnrecognizedException.INVALID_PROGRAM_TEMPLATE)) {
         exception = new CommandUnrecognizedException(e.getMessage());
       } else {
         exception = e;
