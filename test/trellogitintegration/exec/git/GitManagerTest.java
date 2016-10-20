@@ -10,6 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import trellogitintegration.persist.FileUtils;
+
 public class GitManagerTest {
 
   private static final String TEST_FILE = "test.txt";
@@ -28,7 +30,7 @@ public class GitManagerTest {
   
   @After
   public void close() {
-    deleteFolder(this.tempDirectory);
+    FileUtils.deleteFolder(this.tempDirectory);
     assertFalse(this.tempDirectory.exists());
   }
   
@@ -86,17 +88,4 @@ public class GitManagerTest {
     newFile.createNewFile();
   }
   
-  private void deleteFolder(File folder) {
-    File[] files = folder.listFiles();
-    if(files != null) { 
-        for(File f: files) {
-            if(f.isDirectory()) {
-                deleteFolder(f);
-            } else {
-                f.delete();
-            }
-        }
-    }
-    folder.delete();
-}
 }

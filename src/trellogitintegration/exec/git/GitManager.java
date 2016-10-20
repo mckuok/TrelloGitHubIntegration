@@ -9,6 +9,7 @@ import trellogitintegration.exec.CmdExecutionResult;
 import trellogitintegration.exec.CmdExecutor;
 import trellogitintegration.exec.CommandUnrecognizedException;
 import trellogitintegration.exec.git.GitConfigException.GitExceptionType;
+import trellogitintegration.persist.FileUtils;
 
 public class GitManager {
 
@@ -61,7 +62,12 @@ public class GitManager {
   }
 
   public boolean checkOutBranch(String branchName) throws Exception {
-    return this.runCommand(GitOperation.CHECKOUT_BRANCH, branchName);
+    if (this.runCommand(GitOperation.CHECKOUT_BRANCH, branchName)) {
+      return true;
+    } else {
+      return this.runCommand(GitOperation.NEW_BRANCH, branchName) &&
+          this.runCommand(GitOperation.PULL, branchName);
+    }
   }
 
   public boolean status() throws Exception {
@@ -86,7 +92,7 @@ public class GitManager {
     if (success) {
       List<String> after = Arrays.asList(this.workingDir.list());
       // after.removeAll(before); unsupported
-      List<String> newFiles = this.getGeneratedFiles(before, after);
+      List<String> newFiles = FileUtils.getGeneratedFiles(before, after);
       if (newFiles.isEmpty() || newFiles.size() != 1) {
         success = false;
       } else {
@@ -118,11 +124,5 @@ public class GitManager {
     }
   }
 
-  private List<String> getGeneratedFiles(List<String> before,
-      List<String> after) {
-    List<String> difference = new ArrayList<>(after);
-    before.stream().forEach(file -> difference.remove(file));
-    return difference;
-  }
-
+  
 }
