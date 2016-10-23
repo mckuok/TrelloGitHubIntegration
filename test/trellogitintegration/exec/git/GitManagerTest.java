@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import trellogitintegration.persist.FileUtils;
+import trellogitintegration.persist.IOUtils;
 
 public class GitManagerTest {
 
@@ -30,13 +30,14 @@ public class GitManagerTest {
   
   @After
   public void close() {
-    FileUtils.deleteFolder(this.tempDirectory);
+    IOUtils.deleteFolder(this.tempDirectory);
     assertFalse(this.tempDirectory.exists());
+    this.gitManager = null;
   }
   
   @Test
   public void statusTest() throws Exception {
-    assertTrue(this.gitManager.status());
+    assertFalse(this.gitManager.status().isEmpty());
   }
   
   @Test
@@ -44,7 +45,7 @@ public class GitManagerTest {
     createFile();
     assertTrue(this.gitManager.addAll());
     assertFalse(this.gitManager.add("randomName.txt"));
-    assertTrue(this.gitManager.status());
+    assertFalse(this.gitManager.status().isEmpty());
   }
   
   @Test
@@ -62,6 +63,7 @@ public class GitManagerTest {
     createFile();
     assertTrue(this.gitManager.newBranch(testBranch2));
     assertTrue(this.gitManager.add(TEST_FILE));    
+    this.gitManager.branch();
   }
   
   @Test

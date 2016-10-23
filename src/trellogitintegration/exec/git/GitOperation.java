@@ -12,7 +12,8 @@ public enum GitOperation {
   VERSION("git --version"),
   STATUS("git status"),
   LOG("git log"),
-  CLONE("git clone %s");
+  CLONE("git clone %s"),
+  BRANCH("git branch");
   
   private String command;
   

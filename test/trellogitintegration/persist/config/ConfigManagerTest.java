@@ -17,7 +17,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import trellogitintegration.persist.FileUtils;
+import trellogitintegration.persist.IOUtils;
 
 public class ConfigManagerTest {
 
@@ -31,7 +31,7 @@ public class ConfigManagerTest {
   
   @After
   public void close() {
-    FileUtils.deleteFolder(this.tempDirectory);
+    IOUtils.deleteFolder(this.tempDirectory);
     assertFalse(this.tempDirectory.exists());
   }
   

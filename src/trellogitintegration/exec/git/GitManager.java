@@ -1,7 +1,6 @@
 package trellogitintegration.exec.git;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import trellogitintegration.exec.CmdExecutionResult;
 import trellogitintegration.exec.CmdExecutor;
 import trellogitintegration.exec.CommandUnrecognizedException;
 import trellogitintegration.exec.git.GitConfigException.GitExceptionType;
-import trellogitintegration.persist.FileUtils;
+import trellogitintegration.persist.IOUtils;
 
 public class GitManager {
 
@@ -70,19 +69,24 @@ public class GitManager {
     }
   }
 
-  public boolean status() throws Exception {
-    return this.runCommand(GitOperation.STATUS);
+  public String status() throws Exception {
+    return this.getResult(GitOperation.STATUS);
   }
 
   public String log() throws Exception {
-    CmdExecutionResult result = CmdExecutor
-        .sequentialExecute(GitOperation.LOG.getCommand(), this.workingDir);
-
-    if (result.getException() == null) {
-      return result.getOutput();
-    } else {
-      throw result.getException();
+    return this.getResult(GitOperation.LOG);
+  }
+  
+  public String[] branch() throws Exception {
+    String branchList = this.getResult(GitOperation.BRANCH);
+    String[] branches = branchList.split("\n");
+    for (int i = 0; i < branches.length; i++) {
+      System.out.println(branches[i]);
+      if (!branches[i].isEmpty()) {
+        branches[i] = branches[i].substring(2);
+      }
     }
+    return branches;
   }
 
   public boolean clone(String target) throws Exception {
@@ -92,7 +96,7 @@ public class GitManager {
     if (success) {
       List<String> after = Arrays.asList(this.workingDir.list());
       // after.removeAll(before); unsupported
-      List<String> newFiles = FileUtils.getGeneratedFiles(before, after);
+      List<String> newFiles = IOUtils.getGeneratedFiles(before, after);
       if (newFiles.isEmpty() || newFiles.size() != 1) {
         success = false;
       } else {
@@ -107,6 +111,23 @@ public class GitManager {
     return this.workingDir;
   }
 
+  private String getResult(GitOperation operation) throws Exception {
+    return this.getResult(operation, "");
+  }
+  
+  private String getResult(GitOperation operation, String argument) throws Exception {
+    CmdExecutionResult result = CmdExecutor
+        .sequentialExecute(operation.getCommand(), this.workingDir);
+
+    if (result.getException() == null) {
+      return result.getOutput();
+    } else {
+      throw result.getException();
+    }
+    
+  }
+  
+  
   private boolean runCommand(GitOperation operation) throws Exception {
     return this.runCommand(operation, "");
   }
