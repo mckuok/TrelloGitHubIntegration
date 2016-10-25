@@ -3,8 +3,8 @@ package Pomodoro;
 /**
  * This class creates a Pomodoro Timer
  * 
+ * Created: Oct 22, 2016
  * @author Conner Higashino
- * 
  *
  */
 
