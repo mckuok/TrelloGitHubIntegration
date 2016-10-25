@@ -19,7 +19,7 @@ public class CmdExecutorTest {
       throws IOException, InterruptedException {
     CmdExecutionResult result = CmdExecutor.sequentialExecute("echo abc",
         this.currentDirectory);
-    assertEquals("abc\n", result.getOutput());
+    assertEquals("abc\n", result.getMessage());
   }
 
   @Test
@@ -29,7 +29,7 @@ public class CmdExecutorTest {
     assertTrue(result.getException() instanceof CommandUnrecognizedException);
     assertTrue(
         result.getException().getMessage().contains(INVALID_PROGRAM_TEMPLATE));
-    assertTrue(result.getOutput().isEmpty());
+    assertTrue(result.getMessage().isEmpty());
   }
 
   @Test
@@ -39,7 +39,7 @@ public class CmdExecutorTest {
 
           @Override
           public void callback(CmdExecutionResult result) {
-            assertEquals("abc\n", result.getOutput());
+            assertEquals("abc\n", result.getMessage());
           }
 
         });
@@ -50,7 +50,7 @@ public class CmdExecutorTest {
   public void sequentialGitTest() throws IOException, InterruptedException {
     CmdExecutionResult result = CmdExecutor.sequentialExecute("git --version",
         this.currentDirectory);
-    assertTrue(result.getOutput().contains("git version"));
+    assertTrue(result.getMessage().contains("git version"));
   }
 
 }

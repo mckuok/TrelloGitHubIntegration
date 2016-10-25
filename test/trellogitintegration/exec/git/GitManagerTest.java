@@ -10,7 +10,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
+import trellogitintegration.exec.OperationResult;
+import trellogitintegration.exec.git.github.pullrequest.PullRequestSuccessMsg;
 import trellogitintegration.persist.IOUtils;
+import trellogitintegration.rest.JsonStringConverter;
 
 public class GitManagerTest {
 
@@ -23,8 +29,8 @@ public class GitManagerTest {
   public void setup() throws Exception {
     this.tempDirectory = Files.createTempDirectory("temp").toFile();
     this.tempDirectory.mkdir();
-    this.gitManager = new GitManager(this.tempDirectory);
-    assertTrue(this.gitManager.init());
+    this.gitManager = new GitManager(this.tempDirectory, null);
+    assertTrue(this.gitManager.init().isSuccessful());
     assertTrue(new File(this.tempDirectory, ".git").exists());
   }
   
@@ -37,40 +43,44 @@ public class GitManagerTest {
   
   @Test
   public void statusTest() throws Exception {
-    assertFalse(this.gitManager.status().isEmpty());
+    OperationResult result = this.gitManager.status();
+    assertTrue(result.isSuccessful());
+    assertFalse(result.getMessage().isEmpty());
   }
   
   @Test
   public void addTest() throws Exception {
     createFile();
-    assertTrue(this.gitManager.addAll());
-    assertFalse(this.gitManager.add("randomName.txt"));
-    assertFalse(this.gitManager.status().isEmpty());
+    assertTrue(this.gitManager.addAll().isSuccessful());
+    assertFalse(this.gitManager.add("randomName.txt").isSuccessful());
+    OperationResult result = this.gitManager.status();
+    assertTrue(result.isSuccessful());
+    assertFalse(result.getMessage().isEmpty());
   }
   
   @Test
   public void commitTest() throws Exception {
     createFile();
-    assertTrue(this.gitManager.addAll());
-    assertTrue(this.gitManager.commit("test"));
+    assertTrue(this.gitManager.addAll().isSuccessful());
+    assertTrue(this.gitManager.commit("test").isSuccessful());
   }
   
   @Test
   public void branchTest() throws Exception {
     String testBranch1 = "testBranch1";
     String testBranch2 = "testBranch2";
-    assertTrue(this.gitManager.newBranch(testBranch1));
+    assertTrue(this.gitManager.newBranch(testBranch1).isSuccessful());
     createFile();
-    assertTrue(this.gitManager.newBranch(testBranch2));
-    assertTrue(this.gitManager.add(TEST_FILE));    
-    this.gitManager.branch();
+    assertTrue(this.gitManager.newBranch(testBranch2).isSuccessful());
+    assertTrue(this.gitManager.add(TEST_FILE).isSuccessful());    
+    this.gitManager.getAllbranches();
   }
   
   @Test
   public void cloneTest() throws Exception {
     final String url = "https://github.com/mckuok/gitpractice";
     
-    assertTrue(this.gitManager.clone(url));
+    assertTrue(this.gitManager.clone(url).isSuccessful());
     assertTrue(this.gitManager.getWorkingDirectory().exists());
     assertTrue(new File(this.gitManager.getWorkingDirectory(), "README.md").exists());
   }
@@ -79,15 +89,17 @@ public class GitManagerTest {
   public void logTest() throws Exception {
     final String url = "https://github.com/mckuok/gitpractice";
     
-    assertTrue(this.gitManager.clone(url));
+    assertTrue(this.gitManager.clone(url).isSuccessful());
     assertTrue(this.gitManager.getWorkingDirectory().exists());
     assertTrue(new File(this.gitManager.getWorkingDirectory(), "README.md").exists());
-    assertFalse(this.gitManager.log().isEmpty());
+    OperationResult result = this.gitManager.log();
+    assertTrue(result.isSuccessful());
+    assertFalse(result.getMessage().isEmpty());
   }
   
   private void createFile() throws IOException {
     File newFile = new File(this.tempDirectory, TEST_FILE);
     newFile.createNewFile();
   }
-  
+
 }

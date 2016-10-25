@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import trellogitintegration.persist.IOUtils;
 
 /**
@@ -21,11 +19,10 @@ import trellogitintegration.persist.IOUtils;
  */
 public class RestApiConnector {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-  private static final String GET = "GET";
-  private static final String PUT = "PUT";
-  private static final String POST = "POST";
-  private static final String DELETE = "DELETE";
+  public static final String GET = "GET";
+  public static final String PUT = "PUT";
+  public static final String POST = "POST";
+  public static final String DELETE = "DELETE";
 
   /**
    * Sends a GET request to the url, and get back an object deserialized from
@@ -48,9 +45,18 @@ public class RestApiConnector {
     connection.setRequestMethod(GET);
     connection.connect();
 
-    String content = IOUtils.readFromStream(connection.getInputStream());
-    connection.disconnect();
-    T jsonObject = JsonStringConverter.toObject(content, returnClass);
+    T jsonObject = null;
+    try {
+      String content = IOUtils.readFromStream(connection.getInputStream());
+      jsonObject = JsonStringConverter.toObject(content, returnClass);
+    } catch (IOException e) {
+      String message = e.getMessage() + "\n"
+          + IOUtils.readFromStream(connection.getErrorStream());
+      throw new IOException(message);
+    } finally {
+      connection.disconnect();
+    }
+
     return jsonObject;
 
   }
@@ -189,11 +195,17 @@ public class RestApiConnector {
     connection.setRequestMethod(method);
     connection.connect();
 
-    String jsonString = MAPPER.writeValueAsString(pojoObject);
+    String jsonString = JsonStringConverter.toString(pojoObject);
     IOUtils.writeToStream(connection.getOutputStream(), jsonString);
-    String reply = IOUtils.readFromStream(connection.getInputStream());
+    String reply = "";
+    try {
+      reply = IOUtils.readFromStream(connection.getInputStream());
+    } catch (IOException e) {
+      reply = IOUtils.readFromStream(connection.getErrorStream());
+    } finally {
+      connection.disconnect();
+    }
 
-    connection.disconnect();
     return reply;
   }
 

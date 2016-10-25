@@ -1,12 +1,16 @@
 package trellogitintegration.persist.config;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import trellogitintegration.persist.IOUtils;
+import trellogitintegration.rest.JsonStringConverter;
 
 /**
  * This class manages Project configuration using the project name
@@ -16,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class ConfigManager {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final String CONFIG_EXTENSION = ".config";
   private static final String PREFIX = "TG";
 
@@ -70,7 +73,9 @@ public class ConfigManager {
       projectConfigFile.createNewFile();
     }
 
-    MAPPER.writeValue(projectConfigFile, config);
+    String json = JsonStringConverter.toString(config);
+    FileOutputStream outputStream = new FileOutputStream(projectConfigFile);
+    IOUtils.writeToStream(outputStream, json);
   }
 
   /**
@@ -92,8 +97,11 @@ public class ConfigManager {
               projectName, this.root.getAbsolutePath()));
     }
 
-    return MAPPER.readValue(projectConfigFile, ProjectConfig.class);
-
+    FileInputStream inputStream = new FileInputStream(projectConfigFile);
+    String content = IOUtils.readFromStream(inputStream);
+    ProjectConfig projectConfig = JsonStringConverter.toObject(content, ProjectConfig.class);
+    
+    return projectConfig;
   }
   
   /**

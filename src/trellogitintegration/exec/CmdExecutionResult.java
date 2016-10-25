@@ -5,7 +5,7 @@ package trellogitintegration.exec;
  * Created: Oct 16, 2016
  * @author Man Chon Kuok
  */
-public class CmdExecutionResult {
+public class CmdExecutionResult extends OperationResult {
 
   private String output;
   private Exception exception;
@@ -16,6 +16,8 @@ public class CmdExecutionResult {
    * @param exception Exception thrown during command execution, null if none 
    */
   public CmdExecutionResult(String output, Exception exception) {
+    super(determineSuccess(exception));
+    
     if (output == null) {
       throw new IllegalArgumentException("Output cannot be null");
     }
@@ -23,8 +25,8 @@ public class CmdExecutionResult {
     this.output = output;
     this.exception = exception;
   }
-
-  public String getOutput() {
+  
+  public String getMessage() {
     return this.output;
   }
 
@@ -35,6 +37,10 @@ public class CmdExecutionResult {
   @Override
   public String toString() {
     return "CmdExecutionResult [stdOutput=" + this.output + "]";
+  }
+  
+  private static boolean determineSuccess(Exception e) {
+    return e != null;
   }
 
 }
