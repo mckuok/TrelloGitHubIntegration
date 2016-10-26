@@ -8,6 +8,10 @@ public class SampleJsonData {
   private String body;
 
   public SampleJsonData() {
+    userId = 0;
+    id = 0;
+    setTitle("");
+    setBody("");
   }
 
   public int getUserId() {
