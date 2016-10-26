@@ -1,13 +1,32 @@
 package trellogitintegration.exec.git.github.pullrequest;
 
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import trellogitintegration.exec.OperationResult;
+import trellogitintegration.rest.JsonStringConverter;
 
-public abstract class PullRequestResult extends OperationResult {
+public class PullRequestResult extends OperationResult<PullRequestResultMsg> {
 
-  public PullRequestResult(boolean result) {
-    super(result);
+  private static final String FAILURE = "Failed";
+  private final PullRequestResultMsg output;
+  
+  public PullRequestResult(String pullRequestReply) throws JsonParseException, JsonMappingException, IOException {
+    super(!pullRequestReply.contains(FAILURE));
+    if (super.isSuccessful()) {
+      this.output = JsonStringConverter.toObject(pullRequestReply, PullRequestSuccessMsg.class);
+    } else {
+      this.output = JsonStringConverter.toObject(pullRequestReply, PullRequestErrorMsg.class);
+    }
   }
 
-  public abstract String getMessage();
+  @Override
+  public PullRequestResultMsg getOutput() {
+    return this.output;
+  }
   
+   
+
 }

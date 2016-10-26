@@ -5,7 +5,7 @@ package trellogitintegration.exec;
  * Created: Oct 16, 2016
  * @author Man Chon Kuok
  */
-public class CmdExecutionResult extends OperationResult {
+public class CmdExecutionResult extends OperationResult<String> {
 
   private String output;
   private Exception exception;
@@ -26,7 +26,7 @@ public class CmdExecutionResult extends OperationResult {
     this.exception = exception;
   }
   
-  public String getMessage() {
+  public String getOutput() {
     return this.output;
   }
 

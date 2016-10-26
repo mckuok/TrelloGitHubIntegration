@@ -10,13 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 import trellogitintegration.exec.OperationResult;
-import trellogitintegration.exec.git.github.pullrequest.PullRequestSuccessMsg;
 import trellogitintegration.persist.IOUtils;
-import trellogitintegration.rest.JsonStringConverter;
 
 public class GitManagerTest {
 
@@ -43,9 +38,9 @@ public class GitManagerTest {
   
   @Test
   public void statusTest() throws Exception {
-    OperationResult result = this.gitManager.status();
+    OperationResult<String> result = this.gitManager.status();
     assertTrue(result.isSuccessful());
-    assertFalse(result.getMessage().isEmpty());
+    assertFalse(result.getOutput().isEmpty());
   }
   
   @Test
@@ -53,9 +48,9 @@ public class GitManagerTest {
     createFile();
     assertTrue(this.gitManager.addAll().isSuccessful());
     assertFalse(this.gitManager.add("randomName.txt").isSuccessful());
-    OperationResult result = this.gitManager.status();
+    OperationResult<String> result = this.gitManager.status();
     assertTrue(result.isSuccessful());
-    assertFalse(result.getMessage().isEmpty());
+    assertFalse(result.getOutput().isEmpty());
   }
   
   @Test
@@ -92,9 +87,9 @@ public class GitManagerTest {
     assertTrue(this.gitManager.clone(url).isSuccessful());
     assertTrue(this.gitManager.getWorkingDirectory().exists());
     assertTrue(new File(this.gitManager.getWorkingDirectory(), "README.md").exists());
-    OperationResult result = this.gitManager.log();
+    OperationResult<String> result = this.gitManager.log();
     assertTrue(result.isSuccessful());
-    assertFalse(result.getMessage().isEmpty());
+    assertFalse(result.getOutput().isEmpty());
   }
   
   private void createFile() throws IOException {

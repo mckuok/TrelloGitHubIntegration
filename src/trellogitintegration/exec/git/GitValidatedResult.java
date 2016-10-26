@@ -2,7 +2,7 @@ package trellogitintegration.exec.git;
 
 import trellogitintegration.exec.OperationResult;
 
-public class GitValidatedResult extends OperationResult {
+public class GitValidatedResult extends OperationResult<String> {
   
   private final String message;
   
@@ -12,7 +12,7 @@ public class GitValidatedResult extends OperationResult {
   }
 
   @Override
-  public String getMessage() {
+  public String getOutput() {
     return this.message;
   }
 

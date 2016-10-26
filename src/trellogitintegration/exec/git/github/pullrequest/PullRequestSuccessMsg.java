@@ -4,7 +4,7 @@ import java.util.Date;
 
 import trellogitintegration.exec.git.github.user.User;
 
-public class PullRequestSuccessMsg extends PullRequestResult{
+public class PullRequestSuccessMsg extends PullRequestResultMsg {
 
   private String html_url;
   private String title;
@@ -15,21 +15,6 @@ public class PullRequestSuccessMsg extends PullRequestResult{
   private Date closed_at;
   private Date merged_at;
   private User user;
-  private boolean merged;
-  private boolean mergeable;
   
-  public PullRequestSuccessMsg(boolean result) {
-    super(result);
-  }
-
-  @Override
-  public String getMessage() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
-  
- 
-  
-  
+    
 }

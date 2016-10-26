@@ -2,7 +2,7 @@ package trellogitintegration.exec.git.github.pullrequest;
 
 import java.util.List;
 
-public class PullRequestErrorMsg {
+public class PullRequestErrorMsg extends PullRequestResultMsg {
 
   private List<Error> errors;
   

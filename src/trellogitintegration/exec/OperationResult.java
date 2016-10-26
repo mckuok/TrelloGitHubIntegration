@@ -1,6 +1,6 @@
 package trellogitintegration.exec;
 
-public abstract class OperationResult {
+public abstract class OperationResult<T> {
 
   private boolean success;
   
@@ -15,6 +15,6 @@ public abstract class OperationResult {
   /**
    * @return the message explaining the result
    */
-  public abstract String getMessage();
+  public abstract T getOutput();
   
 }

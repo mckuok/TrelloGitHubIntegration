@@ -11,6 +11,9 @@ import trellogitintegration.exec.CmdExecutor;
 import trellogitintegration.exec.CommandUnrecognizedException;
 import trellogitintegration.exec.OperationResult;
 import trellogitintegration.exec.git.GitConfigException.GitExceptionType;
+import trellogitintegration.exec.git.github.pullrequest.PullRequest;
+import trellogitintegration.exec.git.github.GitHubInfo;
+import trellogitintegration.exec.git.github.pullrequest.PullRequestResult;
 import trellogitintegration.persist.IOUtils;
 import trellogitintegration.rest.JsonStringConverter;
 import trellogitintegration.rest.RestApiConnector;
@@ -18,13 +21,11 @@ import trellogitintegration.rest.RestApiConnector;
 public class GitManager {
 
   private File workingDir;
-  private final Map<String, String> githubRequstHeader;
   
-  public GitManager(File workingDir, String token) throws Exception {
+  public GitManager(File workingDir, GitHubInfo gitHubInfo) throws Exception {
     this.workingDir = workingDir;
     gitInstalledOrThrowException();
-    this.githubRequstHeader = new HashMap<>();
-    this.githubRequstHeader.put("Authorization", String.format("token %s", token));
+    
   }
 
   private void gitInstalledOrThrowException() throws Exception {
@@ -39,36 +40,36 @@ public class GitManager {
     }
   }
 
-  public OperationResult init() throws Exception {
+  public OperationResult<String> init() throws Exception {
     return this.getResult(GitOperation.INIT);
   }
 
-  public OperationResult add(String file) throws Exception {
+  public OperationResult<String> add(String file) throws Exception {
     return this.getResult(GitOperation.ADD, file);
   }
 
-  public OperationResult addAll() throws Exception {
+  public OperationResult<String> addAll() throws Exception {
     return this.add(".");
   }
 
-  public OperationResult commit(String message) throws Exception {
+  public OperationResult<String> commit(String message) throws Exception {
     return this.getResult(GitOperation.COMMIT, message);
   }
 
-  public OperationResult push(String branch) throws Exception {
+  public OperationResult<String> push(String branch) throws Exception {
     return this.getResult(GitOperation.PUSH, branch);
   }
 
-  public OperationResult pull(String branch) throws Exception {
+  public OperationResult<String> pull(String branch) throws Exception {
     return this.getResult(GitOperation.PULL, branch);
   }
 
-  public OperationResult newBranch(String branch) throws Exception {
+  public OperationResult<String> newBranch(String branch) throws Exception {
     return this.getResult(GitOperation.NEW_BRANCH, branch);
   }
 
-  public OperationResult checkOutBranch(String branchName) throws Exception {
-    OperationResult result = this.getResult(GitOperation.CHECKOUT_BRANCH, branchName); 
+  public OperationResult<String> checkOutBranch(String branchName) throws Exception {
+    OperationResult<String> result = this.getResult(GitOperation.CHECKOUT_BRANCH, branchName); 
     
     if (result.isSuccessful()) {
       return result;
@@ -82,11 +83,11 @@ public class GitManager {
     }
   }
 
-  public OperationResult status() throws Exception {
+  public OperationResult<String> status() throws Exception {
     return this.getResult(GitOperation.STATUS);
   }
 
-  public OperationResult log() throws Exception {
+  public OperationResult<String> log() throws Exception {
     return this.getResult(GitOperation.LOG);
   }
   
@@ -110,9 +111,9 @@ public class GitManager {
     return null;
   }
 
-  public OperationResult clone(String target) throws Exception {
+  public OperationResult<String> clone(String target) throws Exception {
     List<String> before = Arrays.asList(this.workingDir.list());
-    OperationResult result = this.getResult(GitOperation.CLONE, target);
+    OperationResult<String> result = this.getResult(GitOperation.CLONE, target);
     
     if (result.isSuccessful()) {
       List<String> after = Arrays.asList(this.workingDir.list());
@@ -124,10 +125,14 @@ public class GitManager {
     }
     return result;
   }
-  
- // public String 
-  
 
+  public OperationResult<PullRequestResult> createPullRequest(String token, PullRequest pullRequest) {
+    return null;
+    
+  }
+  
+  
+  
   public File getWorkingDirectory() {
     return this.workingDir;
   }
@@ -137,14 +142,14 @@ public class GitManager {
   
   
 
-  private OperationResult getResult(GitOperation operation) throws Exception {
+  private OperationResult<String> getResult(GitOperation operation) throws Exception {
     return this.getResult(operation, "");
   }
   
-  private OperationResult getResult(GitOperation operation, String argument) throws Exception {
+  private OperationResult<String> getResult(GitOperation operation, String argument) throws Exception {
     CmdExecutionResult result = CmdExecutor
         .sequentialExecute(String.format(operation.getCommand(), argument), this.workingDir);
-    return new GitValidatedResult(operation, result.getMessage());
+    return new GitValidatedResult(operation, result.getOutput());
   }
   
 
@@ -155,7 +160,7 @@ public class GitManager {
 
     if (result.getException() == null) {
       return GitOperationValidator.validateOperation(operation,
-          result.getMessage());
+          result.getOutput());
     } else {
       throw result.getException();
     }
@@ -163,7 +168,7 @@ public class GitManager {
 
   
   private String[] getBranchList() throws Exception {
-    String branchList = this.getResult(GitOperation.BRANCH).getMessage();
+    String branchList = this.getResult(GitOperation.BRANCH).getOutput();
     String[] branches = branchList.split("\n");
     return branches;
   }
