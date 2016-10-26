@@ -17,11 +17,12 @@ public class PomodoroExecutor {
 	
 	private PomodoroTimer timer;
 	/* times are all in seconds */
-	private long timeSet;
-	private long breakSet;
-	private long longSet;
-	private long pomodoroSet;
-	private long currentTime;
+	private long timeSet;									//length of time for each pomodoro
+	private long breakSet;								//length of time for each normal break
+	private long longSet;									//length of time for each long break
+	private long currentTime;							//time remaining in current countdown
+	private int currentPomodoro;					//what number pomodoro is this, starts at 1
+	private int totalPomodoro;						//number of total pomodoros to be run
 	
 	/* booleans indicate what timer is currently going and if all pomodoros have finished */
 	private boolean Pomodoro;
@@ -87,27 +88,31 @@ public class PomodoroExecutor {
 		}
 	}
 	
-	/* booleans */
+	/**
+	 * Starts counting down, decrements currentTime every second(with some drift). 
+	 * @throws InterruptedException
+	 */
 	
-	public boolean isPomodoroFinished() {
-		if (this.getPomodoroTime() == 0) {
-			return true;
+	public void countdown() throws InterruptedException {
+		while (this.getCurrentTime() != 0) {
+			this.delay_sec();
+			this.setCurrentTime(this.getCurrentTime() - 1);
 		}
-		return false;
+		if (this.isPomodoro()) {
+			this.setPomodoro(false);
+			if (this.getCurrentPomodoro() == this.getTotalPomodoro())
+			if ((this.getCurrentPomodoro() % this.getTimer().getLongBreakFreq()) == 0) {
+				this.setLongBreak(true);
+				this.setBreak(false);
+			} else {
+				this.setBreak(true);
+				this.setLongBreak(false);
+			}
+		}
 	}
-	
-	public boolean isBreakFinished() {
-		if (this.getBreakTime() == 0) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean isLongBreakFinished() {
-		if (this.getLongBreakTime() == 0) {
-			return true;
-		}
-		return false;
+
+	public void delay_sec() throws InterruptedException {
+		Thread.sleep(1000);
 	}
 	
 	/* mutators */
@@ -171,6 +176,16 @@ public class PomodoroExecutor {
 	public long getCurrentTime() {
 		return this.currentTime;
 	}
+	
+	public int getTotalPomodoro() {
+		return this.totalPomodoro;
+	}
+	
+	public int getCurrentPomodoro() { 
+		return this.currentPomodoro;
+	}
+	
+	/* booleans */
 	
 	public boolean isPomodoro() {
 		return this.Pomodoro;

@@ -13,6 +13,9 @@ public class PomodoroTimer {
 	/**
 	 * Start a pomodoro timer that repeats. If any sec >= 60, minute will be incremented until 
 	 * sec < 60
+	 * 
+	 * TODO: Set restrictions for setters
+	 * 
 	 * @param mins the number of minutes per pomodoro
 	 * @param sec value 0-59, number of seconds per pomodoro
 	 * @param pomodoros number of pomodoros
