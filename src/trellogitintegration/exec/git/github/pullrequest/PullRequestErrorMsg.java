@@ -73,5 +73,15 @@ public class PullRequestErrorMsg extends PullRequestResultMsg {
     return true;
   }
 
+  /**
+   * {@inheritDoc} 
+   */
+  @Override
+  public String getDisplayableMessage() {
+    StringBuilder stringBuilder = new StringBuilder();
+    this.errors.stream().forEach(error -> stringBuilder.append(error.getMessage() + "\n"));
+    return stringBuilder.toString();
+  }
+
     
 }

@@ -1,30 +1,29 @@
 package trellogitintegration.exec.git;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import trellogitintegration.exec.CmdExecutionResult;
 import trellogitintegration.exec.CmdExecutor;
 import trellogitintegration.exec.CommandUnrecognizedException;
 import trellogitintegration.exec.OperationResult;
 import trellogitintegration.exec.git.GitConfigException.GitExceptionType;
 import trellogitintegration.exec.git.github.pullrequest.PullRequest;
+import trellogitintegration.exec.git.github.pullrequest.PullRequestResultMsg;
+import trellogitintegration.exec.git.github.GitHubApiCaller;
 import trellogitintegration.exec.git.github.GitHubInfo;
-import trellogitintegration.exec.git.github.pullrequest.PullRequestResult;
 import trellogitintegration.persist.IOUtils;
-import trellogitintegration.rest.JsonStringConverter;
-import trellogitintegration.rest.RestApiConnector;
 
 public class GitManager {
 
   private File workingDir;
+  private final GitHubInfo gitHubInfo;  
   
   public GitManager(File workingDir, GitHubInfo gitHubInfo) throws Exception {
     this.workingDir = workingDir;
     gitInstalledOrThrowException();
+    this.gitHubInfo = gitHubInfo;
     
   }
 
@@ -126,22 +125,14 @@ public class GitManager {
     return result;
   }
 
-  public OperationResult<PullRequestResult> createPullRequest(String token, PullRequest pullRequest) {
-    return null;
-    
+  public OperationResult<PullRequestResultMsg> createPullRequest(PullRequest pullRequest) throws IOException {
+    return GitHubApiCaller.createPullRequest(pullRequest, gitHubInfo);
   }
-  
-  
-  
-  public File getWorkingDirectory() {
+    
+  public File getWorkingDirectory() throws IOException {
     return this.workingDir;
   }
   
-  
-  
-  
-  
-
   private OperationResult<String> getResult(GitOperation operation) throws Exception {
     return this.getResult(operation, "");
   }

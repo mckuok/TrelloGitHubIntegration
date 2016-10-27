@@ -1,10 +1,8 @@
 package trellogitintegration.exec.git.github.pullrequest;
 
 import java.io.IOException;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-
 import trellogitintegration.exec.OperationResult;
 import trellogitintegration.rest.JsonStringConverter;
 
@@ -26,6 +24,15 @@ public class PullRequestResult extends OperationResult<PullRequestResultMsg> {
   public PullRequestResultMsg getOutput() {
     return this.output;
   }
+
+  /**
+   * {@inheritDoc} 
+   */
+  @Override
+  public String getDisplayableMessage() {
+    return this.output.getDisplayableMessage();
+  }
+  
   
    
 

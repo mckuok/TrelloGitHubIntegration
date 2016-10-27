@@ -17,4 +17,6 @@ public abstract class OperationResult<T> {
    */
   public abstract T getOutput();
   
+  public abstract String getDisplayableMessage();
+  
 }

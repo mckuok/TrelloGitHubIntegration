@@ -16,4 +16,12 @@ public class GitValidatedResult extends OperationResult<String> {
     return this.message;
   }
 
+  /**
+   * {@inheritDoc} 
+   */
+  @Override
+  public String getDisplayableMessage() {
+    return this.getOutput();
+  }
+
 }

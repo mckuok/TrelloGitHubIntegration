@@ -10,23 +10,16 @@ import trellogitintegration.rest.RestApiConnector;
 
 public class GitHubApiCaller {
 
-  private final GitHubInfo gitHubInfo;
-  private final Map<String, String> headerProperties;  
   
-  public GitHubApiCaller(GitHubInfo gitHubInfo) {
-    this.gitHubInfo = gitHubInfo;
-    this.headerProperties = constructHeaderProperties();
-  }
-  
-  public PullRequestResult createPullRequest(PullRequest pullRequest) throws IOException {
-    String reply = RestApiConnector.post(GitHubURLs.PULL_REQUST.getUrl(gitHubInfo.getUsername(), gitHubInfo.getRepo()), headerProperties, pullRequest);
+  public static PullRequestResult createPullRequest(PullRequest pullRequest, GitHubInfo gitHubInfo) throws IOException {
+    String reply = RestApiConnector.post(GitHubURLs.PULL_REQUST.getUrl(gitHubInfo.getUsername(), gitHubInfo.getRepo()), constructHeaderProperties(gitHubInfo), pullRequest);
     return new PullRequestResult(reply);
   }
   
   
-  private Map<String, String> constructHeaderProperties() {
+  private static Map<String, String> constructHeaderProperties(GitHubInfo gitHubInfo) {
     Map<String, String> header = new HashMap<>();
-    header.put("Authorization", String.format("token %s", this.gitHubInfo.getToken()));
+    header.put("Authorization", String.format("token %s", gitHubInfo.getToken()));
     
     return header;
   }

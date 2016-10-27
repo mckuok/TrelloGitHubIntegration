@@ -43,4 +43,12 @@ public class CmdExecutionResult extends OperationResult<String> {
     return e != null;
   }
 
+  /**
+   * {@inheritDoc} 
+   */
+  @Override
+  public String getDisplayableMessage() {
+    return this.getOutput();
+  }
+
 }
