@@ -77,11 +77,11 @@ public class ConfigManagerTest {
     assertEquals(projectName, savedProjects[0]);
   }
   
-  @Test(expected = FileNotFoundException.class)
+  @Test
   public void loadingNonexistingProjectTest() throws JsonParseException, JsonMappingException, IOException {
     ConfigManager manager = new ConfigManager(this.tempDirectory);
-    manager.loadProjectConfig("inexisting project");
-    fail();
+    ProjectConfig config = manager.loadProjectConfig("inexisting project");
+    assertEquals(new ProjectConfig(), config);
   }
   
   @Test

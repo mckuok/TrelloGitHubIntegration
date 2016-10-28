@@ -26,6 +26,8 @@ public class GitOperationValidator {
       return validateLog(output);
     case CLONE:
       return validateClone(output);
+    case BRANCH:
+      return validateBranch(output);
     default:
       throw new UnsupportedOperationException();
     }
@@ -73,5 +75,9 @@ public class GitOperationValidator {
   
   private static boolean validateClone(String output) {
     return output.startsWith("Cloning into");
+  }
+  
+  private static boolean validateBranch(String output) {
+    return output.contains("*");
   }
 }

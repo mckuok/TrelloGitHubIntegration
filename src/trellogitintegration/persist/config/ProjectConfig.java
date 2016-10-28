@@ -71,7 +71,6 @@ public class ProjectConfig {
     public int hashCode() {
       final int prime = 31;
       int result = 1;
-      result = prime * result + getOuterType().hashCode();
       result = prime * result + ((repo == null) ? 0 : repo.hashCode());
       result = prime * result + ((token == null) ? 0 : token.hashCode());
       result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -87,8 +86,6 @@ public class ProjectConfig {
       if (getClass() != obj.getClass())
         return false;
       GitConfig other = (GitConfig) obj;
-      if (!getOuterType().equals(other.getOuterType()))
-        return false;
       if (repo == null) {
         if (other.repo != null)
           return false;
@@ -106,11 +103,6 @@ public class ProjectConfig {
         return false;
       return true;
     }
-
-    private ProjectConfig getOuterType() {
-      return ProjectConfig.this;
-    }
-    
     
     
   }
