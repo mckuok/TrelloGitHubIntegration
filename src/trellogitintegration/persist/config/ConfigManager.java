@@ -84,17 +84,14 @@ public class ConfigManager {
    * @return the stored project configuration
    * @throws JsonParseException if parsing went wrong
    * @throws JsonMappingException if mapping went wrong (String -> member variables)
-   * @throws FileNotFoundException if project configuration file cannot be found
    * @throws IOException reading went wrong
    */
   public ProjectConfig loadProjectConfig(String projectName)
-      throws JsonParseException, JsonMappingException, FileNotFoundException, IOException {
+      throws JsonParseException, JsonMappingException, IOException {
     File projectConfigFile = new File(this.root,
         getConfigFileName(projectName));
     if (!projectConfigFile.exists()) {
-      throw new FileNotFoundException(
-          String.format("%s's project config file cannot be found in %s",
-              projectName, this.root.getAbsolutePath()));
+      return new ProjectConfig();
     }
 
     FileInputStream inputStream = new FileInputStream(projectConfigFile);

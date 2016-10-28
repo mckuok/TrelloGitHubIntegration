@@ -34,5 +34,18 @@
             file="contexts.xml">
       </contexts>
    </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="trellogitintegration.wizard.properties.GitHubTrelloPropertyPage"
+            id="abc.properties.samplePropertyPage"
+            name="GitHub Trello Integration">
+         <enabledWhen>
+            <instanceof
+                  value="org.eclipse.jdt.core.IJavaProject">
+            </instanceof>
+         </enabledWhen>
+      </page>
+   </extension>
 
 </plugin>

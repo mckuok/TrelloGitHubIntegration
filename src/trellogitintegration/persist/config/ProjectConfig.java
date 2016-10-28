@@ -27,13 +27,13 @@ package trellogitintegration.persist.config;
  */
 public class ProjectConfig {
   
-  private TrelloConfig trelloConfig = null;
-  private GitConfig gitConfig = null;
-  
+  private TrelloConfig trelloConfig  = new TrelloConfig();
+  private GitConfig gitConfig = new GitConfig();
+    
   public class GitConfig {
-    private String token;
-    private String username;
-    private String repo;
+    private String token = "";
+    private String username = "";
+    private String repo = "";
     
     public GitConfig(){}
     
@@ -117,10 +117,10 @@ public class ProjectConfig {
   
   
   public class TrelloConfig {
-    private String url;
-    private String board;
-    private String key;
-    private String token;
+    private String url = "";
+    private String board = "";
+    private String key = "";
+    private String token = "";
   
     public TrelloConfig() {}
     

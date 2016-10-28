@@ -35,6 +35,8 @@ public class SampleView extends ViewPart {
   private TableViewer viewer;
   private Action action1;
   private Action action2;
+  private Action action3;
+  private Action action4;
   private Action doubleClickAction;
 
   class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -101,19 +103,16 @@ public class SampleView extends ViewPart {
   private void fillLocalPullDown(IMenuManager manager) {
     manager.add(action1);
     manager.add(new Separator());
-    manager.add(action2);
   }
 
   private void fillContextMenu(IMenuManager manager) {
-    manager.add(action1);
     manager.add(action2);
     // Other plug-ins can contribute there actions here
     manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
   }
 
   private void fillLocalToolBar(IToolBarManager manager) {
-    manager.add(action1);
-    manager.add(action2);
+    manager.add(action3);
   }
 
   private void makeActions() {
@@ -135,6 +134,33 @@ public class SampleView extends ViewPart {
     action2.setText("Action 2");
     action2.setToolTipText("Action 2 tooltip");
     action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
+        .getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+    doubleClickAction = new Action() {
+      public void run() {
+        ISelection selection = viewer.getSelection();
+        Object obj = ((IStructuredSelection) selection).getFirstElement();
+        showMessage("Double-click detected on " + obj.toString());
+      }
+    };
+
+    action3 = new Action() {
+      public void run() {
+        showMessage("Action 3 executed");
+      }
+    };
+    action3.setText("Action 3");
+    action3.setToolTipText("Action 3 tooltip");
+    action3.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
+        .getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+
+    action4 = new Action() {
+      public void run() {
+        showMessage("Action 4 executed");
+      }
+    };
+    action4.setText("Action 4");
+    action4.setToolTipText("Action 4 tooltip");
+    action4.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
         .getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
     doubleClickAction = new Action() {
       public void run() {
