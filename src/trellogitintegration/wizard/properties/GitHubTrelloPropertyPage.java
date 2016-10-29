@@ -19,10 +19,7 @@ import trellogitintegration.wizard.properties.utils.UIUtils;
 public class GitHubTrelloPropertyPage extends PropertyPage {
 
 	private static final int TEXT_FIELD_WIDTH = 50;
-
-	private final GridData gridData = new GridData();
 	
-
 	private String projectName;
 	private ConfigManager configManager = new ConfigManager(Activator.getDefault().getStateLocation().toFile());
 	private ProjectConfig projectConfig;
@@ -43,7 +40,10 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
 	  loadProjectConfig();
     Composite composite = this.getParentContainer(parent);   
 		
-    this.gitHubGroup = new GitHubGroup(composite, this.gridData, this.projectConfig.getGitConfig());
+    GridData gridData = new GridData();
+    gridData.widthHint = convertWidthInCharsToPixels(TEXT_FIELD_WIDTH);
+    
+    this.gitHubGroup = new GitHubGroup(composite, gridData, this.projectConfig.getGitConfig());
 		UIUtils.addSeparator(composite);
 		
 		return composite;
@@ -59,9 +59,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
     }
 	}
 	
-	private Composite getParentContainer(Composite parent) {
-	  this.gridData.widthHint = convertWidthInCharsToPixels(TEXT_FIELD_WIDTH);
-	  
+	private Composite getParentContainer(Composite parent) {	  
     Composite composite = new Composite(parent, SWT.NONE);
     GridLayout layout = new GridLayout();
     composite.setLayout(layout);
@@ -73,12 +71,12 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
 	}
 	
 	private boolean persistConfig() {
-	   try {
-	      this.configManager.saveProjectConfig(this.projectName, this.projectConfig);
-	    } catch (IOException e) {
-	      return false;
-	    }
-	    return true;
+	  try {
+      this.configManager.saveProjectConfig(this.projectName, this.projectConfig);
+    } catch (IOException e) {
+      return false;
+    }
+    return true;
 	}
 	
 	

@@ -11,8 +11,6 @@ public class PullRequestErrorMsg extends PullRequestResultMsg {
   private static class Error {
     private String message;
     
-    public Error(){};
-    
     public String getMessage() {
       return message;
     }

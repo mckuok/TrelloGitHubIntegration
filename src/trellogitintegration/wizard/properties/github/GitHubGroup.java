@@ -47,9 +47,4 @@ public class GitHubGroup extends GroupTemplate implements WizardActions {
   }
   
 
-  
-  
-    
-    
-
 }

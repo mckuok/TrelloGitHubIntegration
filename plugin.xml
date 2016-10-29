@@ -38,7 +38,7 @@
          point="org.eclipse.ui.propertyPages">
       <page
             class="trellogitintegration.wizard.properties.GitHubTrelloPropertyPage"
-            id="abc.properties.samplePropertyPage"
+            id="trellogitintegration.wizard.properties.GitHubTrelloPropertyPage"
             name="GitHub Trello Integration">
          <enabledWhen>
             <instanceof

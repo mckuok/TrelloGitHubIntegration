@@ -22,5 +22,5 @@ public class PullRequestSuccessMsg extends PullRequestResultMsg {
     return String.format("Pull Request submitted\n Title: \t%s\nBody: \t%s\nLink:%s", this.title, this.body, this.html_url);
   }
   
-    
+  
 }

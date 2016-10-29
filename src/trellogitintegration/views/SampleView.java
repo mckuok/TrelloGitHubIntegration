@@ -1,7 +1,9 @@
 package trellogitintegration.views;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.*;
+
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.jface.action.*;
@@ -9,7 +11,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
-
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
  * shows data obtained from the model. The sample creates a dummy model on the
@@ -65,12 +66,15 @@ public class SampleView extends ViewPart {
    * it.
    */
   public void createPartControl(Composite parent) {
-    viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+    /*viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 
     viewer.setContentProvider(ArrayContentProvider.getInstance());
     viewer.setInput(new String[] { "One", "Two", "Three" });
     viewer.setLabelProvider(new ViewLabelProvider());
-
+    
+   // Label l1 = new Label(viewer, SWT.NONE);
+    
+    
     // Create the help context id for the viewer's control
     PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(),
         "TrelloGitIntegration.viewer");
@@ -78,9 +82,13 @@ public class SampleView extends ViewPart {
     makeActions();
     hookContextMenu();
     hookDoubleClickAction();
-    contributeToActionBars();
+    contributeToActionBars();*/
+    
+    
+
   }
 
+  
   private void hookContextMenu() {
     MenuManager menuMgr = new MenuManager("#PopupMenu");
     menuMgr.setRemoveAllWhenShown(true);
