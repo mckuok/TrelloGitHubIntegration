@@ -1,8 +1,8 @@
-package Pomodoro.exec;
+package pomodoro.exec;
 
 import java.util.Timer;
 
-import Pomodoro.PomodoroTimer;
+import pomodoro.PomodoroTimer;
 
 /** 
 	* This class starts the Pomodoro countdown based on the input
@@ -21,8 +21,8 @@ public class PomodoroExecutor {
 	private long breakSet;								//length of time for each normal break
 	private long longSet;									//length of time for each long break
 	private long currentTime;							//time remaining in current countdown
+	
 	private int currentPomodoro;					//what number pomodoro is this, starts at 1
-	private int totalPomodoro;						//number of total pomodoros to be run
 	
 	/* booleans indicate what timer is currently going and if all pomodoros have finished */
 	private boolean Pomodoro;
@@ -89,25 +89,47 @@ public class PomodoroExecutor {
 	}
 	
 	/**
-	 * Starts counting down, decrements currentTime every second(with some drift). 
+	 * Starts counting down, decrements currentTime every second(with some drift). At the end of the
+	 *   countdown, sets the time for the next appropriate countdown. Continues automatically until the final pomodoro ends
 	 * @throws InterruptedException
 	 */
 	
 	public void countdown() throws InterruptedException {
-		while (this.getCurrentTime() != 0) {
-			this.delay_sec();
-			this.setCurrentTime(this.getCurrentTime() - 1);
-		}
-		if (this.isPomodoro()) {
-			this.setPomodoro(false);
-			if (this.getCurrentPomodoro() == this.getTotalPomodoro())
-			if ((this.getCurrentPomodoro() % this.getTimer().getLongBreakFreq()) == 0) {
-				this.setLongBreak(true);
-				this.setBreak(false);
-			} else {
-				this.setBreak(true);
-				this.setLongBreak(false);
+		while (this.getCurrentPomodoro() != this.getTimer().getPomodoros()) {
+			while (this.getCurrentTime() != 0) {
+				this.delay_sec();
+				this.setCurrentTime(this.getCurrentTime() - 1);
 			}
+			if (this.isPomodoro()) {
+				this.setPomodoro(false);
+				if (this.getCurrentPomodoro() == this.getTimer().getPomodoros()) {
+					/* if last pomodoro ended */
+					this.setPomodoro(false);
+					this.setBreak(false);
+					this.setLongBreak(false);
+					this.setFinished(true);
+				} else if ((this.getCurrentPomodoro() % this.getTimer().getLongBreakFreq()) == 0) {
+					/* if it's time for a long break */
+					this.setPomodoro(false);
+					this.setBreak(false);
+					this.setLongBreak(true);
+					this.setFinished(false);
+				} else {
+					/* if it's time for a normal break */
+					this.setPomodoro(false);
+					this.setBreak(true);
+					this.setLongBreak(false);
+					this.setFinished(false);
+				}
+				/* break ended, back to work */
+			} else if (this.isBreak() || this.isLongBreak()) {
+				this.setPomodoro(true);
+				this.setBreak(false);
+				this.setLongBreak(false);
+				this.setFinished(false);
+			}
+			/* reset the countdown to the correct time */
+			this.setCountdown();
 		}
 	}
 
@@ -116,6 +138,14 @@ public class PomodoroExecutor {
 	}
 	
 	/* mutators */
+	
+	public void incrementCurrentPomodoro() {
+		this.currentPomodoro++;
+	}
+	
+	public void resetCurrentPomodoro() {
+		this.currentPomodoro = 0;
+	}
 	
 	/* setters */
 	
@@ -155,6 +185,7 @@ public class PomodoroExecutor {
 		this.Finished = bool;
 	}
 	
+	
 	/* getters */
 	
 	public PomodoroTimer getTimer() {
@@ -175,10 +206,6 @@ public class PomodoroExecutor {
 	
 	public long getCurrentTime() {
 		return this.currentTime;
-	}
-	
-	public int getTotalPomodoro() {
-		return this.totalPomodoro;
 	}
 	
 	public int getCurrentPomodoro() { 

@@ -1,4 +1,4 @@
-package Pomodoro;
+package pomodoro;
 
 /**
  * This class creates a Pomodoro Timer
