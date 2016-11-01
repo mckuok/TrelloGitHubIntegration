@@ -13,7 +13,7 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import trellogitintegration.Activator;
 import trellogitintegration.persist.config.ConfigManager;
 import trellogitintegration.persist.config.ProjectConfig;
-import trellogitintegration.wizard.properties.github.GitHubGroup;
+import trellogitintegration.wizard.properties.github.GitHubConfigGroup;
 import trellogitintegration.wizard.properties.utils.UIUtils;
 
 public class GitHubTrelloPropertyPage extends PropertyPage {
@@ -24,7 +24,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
 	private ConfigManager configManager = new ConfigManager(Activator.getDefault().getStateLocation().toFile());
 	private ProjectConfig projectConfig;
 	
-	private GitHubGroup gitHubGroup;
+	private GitHubConfigGroup gitHubGroup;
 	
 	/**
 	 * Constructor for SamplePropertyPage.
@@ -43,7 +43,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
     GridData gridData = new GridData();
     gridData.widthHint = convertWidthInCharsToPixels(TEXT_FIELD_WIDTH);
     
-    this.gitHubGroup = new GitHubGroup(composite, gridData, this.projectConfig.getGitConfig());
+    this.gitHubGroup = new GitHubConfigGroup(composite, gridData, this.projectConfig.getGitConfig());
 		UIUtils.addSeparator(composite);
 		
 		return composite;

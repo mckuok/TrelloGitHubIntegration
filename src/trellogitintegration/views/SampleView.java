@@ -1,16 +1,40 @@
 package trellogitintegration.views;
 
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.*;
 
+import trellogitintegration.eclipse.utils.EclipseHelperUtils;
+import trellogitintegration.exec.git.GitManager;
+import trellogitintegration.views.github.GitHubViewGroup;
+import trellogitintegration.wizard.properties.utils.UIUtils;
+
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
  * shows data obtained from the model. The sample creates a dummy model on the
@@ -33,7 +57,7 @@ public class SampleView extends ViewPart {
    */
   public static final String ID = "trellogitintegration.views.SampleView";
 
-  private TableViewer viewer;
+  //private TableViewer viewer;
   private Action action1;
   private Action action2;
   private Action action3;
@@ -84,11 +108,25 @@ public class SampleView extends ViewPart {
     hookDoubleClickAction();
     contributeToActionBars();*/
     
-    
+    TabFolder folder = new TabFolder(parent, SWT.TOP);
+    List<IProject> projects = EclipseHelperUtils.getOpenedProjects();
+    Iterator<IProject> iterator = projects.iterator();
+    while (iterator.hasNext()) {
+      ProjectTab tab = new ProjectTab(folder, iterator.next());
+      try {
+        File projectDirectory = tab.getProject().getLocation().toFile();
+        GitHubViewGroup g1 = new GitHubViewGroup(tab.getContentArea(), new GitManager(projectDirectory, null));
+      } catch (Exception e) {
+        System.out.println(e);
+      }
 
+    }
+    
+    
+    
   }
 
-  
+/*  
   private void hookContextMenu() {
     MenuManager menuMgr = new MenuManager("#PopupMenu");
     menuMgr.setRemoveAllWhenShown(true);
@@ -191,11 +229,11 @@ public class SampleView extends ViewPart {
     MessageDialog.openInformation(viewer.getControl().getShell(), "Sample View",
         message);
   }
-
+*/
   /**
    * Passing the focus request to the viewer's control.
    */
   public void setFocus() {
-    viewer.getControl().setFocus();
+  
   }
 }

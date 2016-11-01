@@ -104,7 +104,7 @@ public class GitManager {
     String[] branches = getBranchList();
     for (int i = 0; i < branches.length; i++) {
       if (branches[i].startsWith("*")) {
-        return branches[i];
+        return branches[i].substring(2);
       }
     }
     return null;
@@ -163,5 +163,5 @@ public class GitManager {
     String[] branches = branchList.split("\n");
     return branches;
   }
-  
+
 }

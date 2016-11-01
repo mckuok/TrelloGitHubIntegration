@@ -12,6 +12,8 @@ public class GitOperationValidator {
       return validatePull(output);
     case ADD:
       return validateAdd(output);
+    case ADD_ALL:
+      return validateAdd(output);
     case COMMIT:
       return validateCommit(output);
     case NEW_BRANCH:

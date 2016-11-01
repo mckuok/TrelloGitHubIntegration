@@ -1,7 +1,11 @@
 package trellogitintegration.wizard.properties.utils;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -14,7 +18,7 @@ public class UIUtils {
   }
   
   public static Text addInputTextBox(Composite parent, GridData gridData, String defaultText) {
-    Text textbox = new Text(parent, SWT.SINGLE | SWT.BORDER);
+    Text textbox = new Text(parent, SWT.SEARCH | SWT.SINGLE | SWT.BORDER);
     textbox.setLayoutData(gridData);
     textbox.setText(defaultText);
     return textbox;
@@ -27,4 +31,27 @@ public class UIUtils {
     gridData.grabExcessHorizontalSpace = true;
     separator.setLayoutData(gridData);
   }  
+  
+  public static void uniformButtonSize(Composite parent, Button... buttons) {
+    int maxHeight = 0;
+    int maxWidth = 0;
+    for (int i = 0; i < buttons.length; i++) {
+      Point size = buttons[i].getSize();
+      if (size.x > maxWidth) {
+        maxWidth = size.x;
+      }
+      if (size.y > maxHeight) {
+        maxHeight = size.y;
+      }
+    }
+    
+    GridData gridData = new GridData();
+    gridData.widthHint = maxWidth;
+    gridData.heightHint = maxHeight;
+    
+    for (int i = 0; i < buttons.length; i++) {
+      buttons[i].setLayoutData(gridData);
+    }
+    //parent.layout();
+  }
 }

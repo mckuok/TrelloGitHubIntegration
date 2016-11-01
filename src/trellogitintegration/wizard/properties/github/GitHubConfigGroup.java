@@ -9,7 +9,7 @@ import trellogitintegration.wizard.properties.WizardActions;
 import trellogitintegration.wizard.properties.utils.GroupTemplate;
 import trellogitintegration.wizard.properties.utils.UIUtils;
 
-public class GitHubGroup extends GroupTemplate implements WizardActions {
+public class GitHubConfigGroup extends GroupTemplate implements WizardActions {
 
   private static final String TITLE = "GitHub Settings";
   
@@ -18,7 +18,7 @@ public class GitHubGroup extends GroupTemplate implements WizardActions {
   private final Text tokenText;
   private final GridData gridData;
   
-  public GitHubGroup(Composite parent, GridData gridData, GitConfig gitConfig) {
+  public GitHubConfigGroup(Composite parent, GridData gridData, GitConfig gitConfig) {
     super(parent, TITLE);
     this.gitConfig = gitConfig;
     this.gridData = gridData;

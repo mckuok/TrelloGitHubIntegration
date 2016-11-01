@@ -1,4 +1,4 @@
-package trellogitintegration.wizard.properties.utils;
+ package trellogitintegration.wizard.properties.utils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -23,7 +23,7 @@ public class GroupTemplate extends Group {
     this.setText(title);
   }
   
-  public void checkSubclass(){};
+  public void checkSubclass(){}
  
 
 }
