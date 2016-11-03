@@ -1,13 +1,14 @@
 package trellogitintegration.wizard.properties.utils;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class UIUtils {
@@ -33,6 +34,7 @@ public class UIUtils {
   }  
   
   public static void uniformButtonSize(Composite parent, Button... buttons) {
+    parent.layout();
     int maxHeight = 0;
     int maxWidth = 0;
     for (int i = 0; i < buttons.length; i++) {
@@ -52,6 +54,16 @@ public class UIUtils {
     for (int i = 0; i < buttons.length; i++) {
       buttons[i].setLayoutData(gridData);
     }
-    //parent.layout();
+  }
+  
+  public static void centerShell(Composite parent, Composite child) {
+    Monitor primary = parent.getDisplay().getPrimaryMonitor();
+    Rectangle bounds = primary.getBounds();
+    Rectangle rect = child.getBounds();
+    
+    int x = bounds.x + (bounds.width - rect.width) / 2;
+    int y = bounds.y + (bounds.height - rect.height) / 2;
+    
+    child.setLocation(x, y);
   }
 }
