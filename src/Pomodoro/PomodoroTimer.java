@@ -29,21 +29,8 @@ public class PomodoroTimer {
 	public PomodoroTimer(int mins, int sec, int pomodoros, int breakMin, 
 			int breakSec, int longBreakMin, int longBreakSec, int longBreakFreq) {
 		/* 
-		 * Check if the seconds are proper and increment minutes if they are not. If anything is 
-		 * negative, set to 0. If pomodoros or long_break_freq is negative, set to 1
+		 * If anything is negative, set to 0. If pomodoros or long_break_freq is negative, set to 1
 		 */
-		while (sec >= 60) {
-			mins++;
-			sec -= 60;
-		}
-		while (breakSec >= 60) {
-			breakMin++;
-			breakSec -= 60;
-		}
-		while (longBreakSec >= 60) {
-			longBreakMin++;
-			longBreakSec -= 60;
-		}
 		if (mins < 0) {
 			mins = 0;
 		}
@@ -72,23 +59,20 @@ public class PomodoroTimer {
 		/* check that every timer has minutes or seconds. If not, force values */
 		
 		if (mins == 0 && sec == 0) {
-			mins = 25;
+			sec = 1500;			//25 minutes
 		}
 		if (breakMin == 0 && breakSec == 0) {
-			breakMin = 5;
+			breakSec = 300;	//5 minutes
 		}
 		if (longBreakMin == 0 && longBreakSec == 0) {
-			longBreakMin = 10;
+			longBreakSec = 600;	//10 minutes
 		}
 		
 		/* set values */
-		this.setMins(mins);
-		this.setSec(sec);
+		this.setPomodoroTime(sec);
 		this.setPomodoros(pomodoros);
-		this.setBreakMin(breakMin);
-		this.setBreakSec(breakSec);
-		this.setLongBreakMin(longBreakMin);
-		this.setLongBreakSec(longBreakSec);
+		this.setBreakTime(breakSec);
+		this.setLongBreakTime(longBreakSec);
 		this.setLongBreakFreq(longBreakFreq);
 	}
 	
@@ -96,32 +80,20 @@ public class PomodoroTimer {
 	
 	/* setters */
 	
-	public void setMins(int mins) {
-		this.mins = mins;
-	}
-	
-	public void setSec(int sec) {
-		this.sec = sec;
+	public void setPomodoroTime(int sec) {
+		this.pomodoroTime = sec;
 	}
 	
 	public void setPomodoros(int pomodoros) {
 		this.pomodoros = pomodoros;
 	}
 	
-	public void setBreakMin(int breakMin) {
-		this.breakMin = breakMin;
+	public void setBreakTime(int breakSec) {
+		this.breakTime = breakSec;
 	}
 	
-	public void setBreakSec(int breakSec) {
-		this.breakSec = breakSec;
-	}
-	
-	public void setLongBreakMin(int longBreakMin) {
-		this.longBreakMin = longBreakMin;
-	}
-	
-	public void setLongBreakSec(int longBreakSec) {
-		this.longBreakSec = longBreakSec;
+	public void setLongBreakTime(int longBreakSec) {
+		this.longBreakTime = longBreakSec;
 	}
 	
 	public void setLongBreakFreq(int longBreakFreq) {
@@ -130,32 +102,20 @@ public class PomodoroTimer {
 	
 	/* getters */
 	
-	public int getMins() {
-		return this.mins;
-	}
-	
-	public int getSec() {
-		return this.sec;
+	public int getPomodoroTime() {
+		return this.pomodoroTime;
 	}
 	
 	public int getPomodoros() {
 		return this.pomodoros;
 	}
 
-	public int getBreakMin() {
-		return this.breakMin;
+	public int getBreakTime() {
+		return this.breakTime;
 	}
 	
-	public int getBreakSec() {
-		return this.breakSec;
-	}
-	
-	public int getLongBreakMin() {
-		return this.longBreakMin;
-	}
-
-	public int getLongBreakSec() {
-		return this.longBreakSec;
+	public int getLongBreakTime() {
+		return this.longBreakTime;
 	}
 	
 	public int getLongBreakFreq() {
@@ -163,12 +123,9 @@ public class PomodoroTimer {
 	}
 	
 	/* private variables */
-	int mins;
-	int sec;
+	int pomodoroTime;
 	int pomodoros;
-	int breakMin;
-	int breakSec;
-	int longBreakMin;
-	int longBreakSec;
+	int breakTime;
+	int longBreakTime;
 	int longBreakFreq;
 }
