@@ -16,7 +16,7 @@ public class PomodoroExecutor {
 	
 	private PomodoroTimer timer;
 	/* times are all in seconds */
-	private long pomodroTimeSet;									//length of time for each pomodoro
+	private long pomodoroTimeSet;									//length of time for each pomodoro
 	private long breakTimeSet;								//length of time for each normal break
 	private long longTimeSet;									//length of time for each long break
 	private long countdownTime;						//time remaining in current countdown
@@ -43,11 +43,11 @@ public class PomodoroExecutor {
 	 */
 	public void initTimer() {
 		/* set normal timer */
-		this.setTimeRemaining(this.getTimer().getPomodoroTime());
+		this.setPomodoroTimeRemaining(this.getTimer().getPomodoroTime());
 		/* set break timer */
-		this.setBreakRemaining(this.getTimer().getBreakTime());
+		this.setBreakTimeRemaining(this.getTimer().getBreakTime());
 		/* set long break timer */
-		this.setLongBreakRemaining(this.getTimer().getLongBreakTime());
+		this.setLongBreakTimeRemaining(this.getTimer().getLongBreakTime());
 		this.currentCountdown = currentTimer.POMODORO;
 		this.pause = false;
 	}
@@ -175,7 +175,7 @@ public class PomodoroExecutor {
 	}
 	
 	public long getPomodoroTime() {
-		return this.pomodroTimeSet;
+		return this.pomodoroTimeSet;
 	}
 	
 	public long getBreakTime() {
