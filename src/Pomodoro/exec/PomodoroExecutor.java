@@ -16,9 +16,9 @@ public class PomodoroExecutor {
 	
 	private PomodoroTimer timer;
 	/* times are all in seconds */
-	private long timeSet;									//length of time for each pomodoro
-	private long breakSet;								//length of time for each normal break
-	private long longSet;									//length of time for each long break
+	private long pomodroTimeSet;									//length of time for each pomodoro
+	private long breakTimeSet;								//length of time for each normal break
+	private long longTimeSet;									//length of time for each long break
 	private long countdownTime;						//time remaining in current countdown
 	
 	private boolean pause;
@@ -151,16 +151,16 @@ public class PomodoroExecutor {
 		this.timer = timer;
 	}
 	
-	public void setTimeRemaining(long time) {
-		this.timeSet = time;
+	public void setPomodoroTimeRemaining(long time) {
+		this.pomodoroTimeSet = time;
 	}
 	
-	public void setBreakRemaining(long time) {
-		this.breakSet = time;
+	public void setBreakTimeRemaining(long time) {
+		this.breakTimeSet = time;
 	}
 	
-	public void setLongBreakRemaining(long time) {
-		this.longSet = time;
+	public void setLongBreakTimeRemaining(long time) {
+		this.longTimeSet = time;
 	}
 
 	public void setCountdownTime(long time) {
@@ -175,15 +175,15 @@ public class PomodoroExecutor {
 	}
 	
 	public long getPomodoroTime() {
-		return this.timeSet;
+		return this.pomodroTimeSet;
 	}
 	
 	public long getBreakTime() {
-		return this.breakSet;
+		return this.breakTimeSet;
 	}
 	
 	public long getLongBreakTime() {
-		return this.longSet;
+		return this.longTimeSet;
 	}
 	
 	public long getCountdownTime() {
