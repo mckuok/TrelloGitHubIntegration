@@ -7,7 +7,6 @@ import pomodoro.PomodoroTimer;
 /** 
 	* This class starts the Pomodoro countdown based on the input
 	* 
-	* TODO: Start countdown timer(s)
 	* 
 	* Created: Oct 24, 2016
   * @author Conner Higashino
@@ -118,8 +117,12 @@ public class PomodoroExecutor {
 		}
 	}
 
-	public void delay_sec() throws InterruptedException {
-		Thread.sleep(1000);
+	public void delay_sec() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			this.pause();
+		}
 	}
 	
 	/* mutators */
