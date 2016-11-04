@@ -7,8 +7,16 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 
+/**
+ * Class containing util methods for manipulating Eclipse specific objects
+ * Created: Nov 3, 2016
+ * @author Man Chon Kuok
+ */
 public class EclipseHelperUtils {
   
+  /**
+   * @return Returns a list of projects that are opened in eclipse
+   */
   public static List<IProject> getOpenedProjects() {
     List<IProject> openedProjects = new LinkedList<>();
     

@@ -12,6 +12,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import trellogitintegration.utils.ValidationUtils;
+
 /**
  * Utility class for IO related operations
  * Created: Oct 22, 2016
@@ -27,6 +29,8 @@ public class IOUtils {
    * @return true if deleted successfully, false otherwise
    */
   public static boolean deleteFolder(File folder) {
+    ValidationUtils.checkNull(folder);
+    
     File[] files = folder.listFiles();
     if (files != null) {
       for (File f : files) {
@@ -50,6 +54,8 @@ public class IOUtils {
    */
   public static List<String> getGeneratedFiles(List<String> before,
       List<String> after) {
+    ValidationUtils.checkNull(before, after);
+    
     List<String> difference = new ArrayList<>(after);
     before.stream().forEach(file -> difference.remove(file));
     return difference;
@@ -66,6 +72,8 @@ public class IOUtils {
    */
   public static void writeToStream(OutputStream outputStream, String content)
       throws IOException {
+    ValidationUtils.checkNull(outputStream, content);
+    
     BufferedWriter writer = new BufferedWriter(
         new OutputStreamWriter(outputStream, Charset.forName("UTF-8")));
     writer.write(content);
@@ -83,6 +91,8 @@ public class IOUtils {
    */
   public static String readFromStream(InputStream inputStream)
       throws IOException {
+    ValidationUtils.checkNull(inputStream);
+    
     BufferedReader reader = new BufferedReader(
         new InputStreamReader(inputStream, Charset.forName("UTF-8")));
     String line;

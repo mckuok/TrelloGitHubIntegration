@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import trellogitintegration.persist.IOUtils;
 import trellogitintegration.rest.JsonStringConverter;
+import trellogitintegration.utils.ValidationUtils;
 
 /**
  * This class manages Project configuration using the project name
@@ -29,6 +30,8 @@ public class ConfigManager {
    * @param root The root of plugin folder where the manager is allowed to write to
    */
   public ConfigManager(File root) {
+    ValidationUtils.checkNull(root);
+    
     this.root = root;
     if (!this.root.exists()) {
       this.root.mkdirs();
@@ -66,6 +69,9 @@ public class ConfigManager {
    */
   public void saveProjectConfig(String projectName, ProjectConfig config)
       throws IOException {
+    ValidationUtils.checkNull(config);
+    ValidationUtils.checkNullOrEmpty(projectName);
+    
     File projectConfigFile = new File(this.root,
         getConfigFileName(projectName));
     if (!projectConfigFile.exists()) {
@@ -78,7 +84,8 @@ public class ConfigManager {
   }
 
   /**
-   * load the project config using the given project name
+   * load the project config using the given project name.
+   * A empty config is returned if the old config does not exist.
    * @param projectName name of the project
    * @return the stored project configuration
    * @throws JsonParseException if parsing went wrong
@@ -87,6 +94,8 @@ public class ConfigManager {
    */
   public ProjectConfig loadProjectConfig(String projectName)
       throws JsonParseException, JsonMappingException, IOException {
+    ValidationUtils.checkNullOrEmpty(projectName);
+    
     File projectConfigFile = new File(this.root,
         getConfigFileName(projectName));
     if (!projectConfigFile.exists()) {
@@ -107,6 +116,8 @@ public class ConfigManager {
    * @return true if rename successfully, false otherwise
    */
   public boolean renameProjectConfigFile(String oldProjectName, String newProjectName) {
+    ValidationUtils.checkNullOrEmpty(oldProjectName, newProjectName);
+    
     File oldProjectFile = new File(this.root, this.getConfigFileName(oldProjectName));
     File newProjectFile = new File(this.root, this.getConfigFileName(newProjectName));
     
@@ -123,6 +134,8 @@ public class ConfigManager {
    * @return true if deleted successfully, false otherwise
    */
   public boolean deleteProjectConfig(String projectName) {
+    ValidationUtils.checkNullOrEmpty(projectName);
+    
     File projectConfigFile = new File(this.root,
         getConfigFileName(projectName));
     if (!projectConfigFile.exists()) {
@@ -139,6 +152,8 @@ public class ConfigManager {
    * @return  "TG [projectName].config"
    */
   private String getConfigFileName(String projectName) {
+    ValidationUtils.checkNullOrEmpty(projectName);
+    
     return String.format("%s %s%s", PREFIX, projectName, CONFIG_EXTENSION);
   }
 
@@ -149,6 +164,8 @@ public class ConfigManager {
    * @return the project name
    */
   private String stripFileNameToProjectName(String filename) {
+    ValidationUtils.checkNullOrEmpty(filename);
+    
     return filename.replaceFirst(PREFIX + " ", "").replace(CONFIG_EXTENSION,
         "");
 

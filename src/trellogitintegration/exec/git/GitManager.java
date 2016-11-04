@@ -12,15 +12,15 @@ import trellogitintegration.exec.git.GitConfigException.GitExceptionType;
 import trellogitintegration.exec.git.github.pullrequest.PullRequest;
 import trellogitintegration.exec.git.github.pullrequest.PullRequestResultMsg;
 import trellogitintegration.exec.git.github.GitHubApiCaller;
-import trellogitintegration.exec.git.github.GitHubInfo;
 import trellogitintegration.persist.IOUtils;
+import trellogitintegration.persist.config.ProjectConfig.GitConfig;
 
 public class GitManager {
 
   private File workingDir;
-  private final GitHubInfo gitHubInfo;  
+  private final GitConfig gitHubInfo;  
   
-  public GitManager(File workingDir, GitHubInfo gitHubInfo) throws Exception {
+  public GitManager(File workingDir, GitConfig gitHubInfo) throws Exception {
     this.workingDir = workingDir;
     gitInstalledOrThrowException();
     this.gitHubInfo = gitHubInfo;
@@ -127,6 +127,42 @@ public class GitManager {
 
   public OperationResult<PullRequestResultMsg> createPullRequest(PullRequest pullRequest) throws IOException {
     return GitHubApiCaller.createPullRequest(pullRequest, gitHubInfo);
+  }
+  
+  public OperationResult<String> execute(GitOperation operation, String argument) throws Exception {
+    switch(operation) {
+    case INIT:
+      return this.init();
+    case PUSH:
+      return this.push(argument);
+    case PULL:
+      return this.pull(argument);
+    case ADD:
+      return this.add(argument);
+    case ADD_ALL:
+      return this.addAll();
+    case COMMIT:
+      return this.commit(argument);
+    case NEW_BRANCH:
+      return this.newBranch(argument);
+    case CHECKOUT_BRANCH:
+      return this.checkOutBranch(argument);
+    case STATUS:
+      return this.status();
+    case LOG:
+      return this.log();
+    case CLONE:
+      return this.clone(argument);
+    case BRANCH:
+      String[] branches = this.getAllbranches();
+      StringBuilder stringBuilder = new StringBuilder();
+      Arrays.stream(branches).forEach(branch -> stringBuilder.append(branch).append("\n"));
+      GitValidatedResult result = new GitValidatedResult(GitOperation.BRANCH, stringBuilder.toString());
+      return result;
+    default:
+      return new CmdExecutionResult("Success", null);
+    }
+    
   }
     
   public File getWorkingDirectory() throws IOException {

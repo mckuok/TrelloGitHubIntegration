@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import trellogitintegration.utils.ValidationUtils;
+
 /**
  * Utility class to handle JSON formatted string to Object and Object to JSON
  * formatted string Created: Oct 22, 2016
@@ -28,6 +30,8 @@ public class JsonStringConverter {
    * @throws JsonProcessingException
    */
   public static <T> String toString(T pojo) throws JsonProcessingException {
+    ValidationUtils.checkNull(pojo);
+    
     return MAPPER.writeValueAsString(pojo);
   }
 
@@ -45,6 +49,8 @@ public class JsonStringConverter {
    */
   public static <T> T toObject(String json, Class<T> pojoClass)
       throws JsonParseException, JsonMappingException, IOException {
+    ValidationUtils.checkNull(json, pojoClass);
+    
     return MAPPER.readValue(json, pojoClass);
   }
 

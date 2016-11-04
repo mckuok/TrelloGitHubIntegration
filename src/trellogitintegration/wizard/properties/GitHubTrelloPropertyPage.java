@@ -11,11 +11,17 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.dialogs.PropertyPage;
 
 import trellogitintegration.Activator;
+import trellogitintegration.eclipse.utils.UIUtils;
 import trellogitintegration.persist.config.ConfigManager;
 import trellogitintegration.persist.config.ProjectConfig;
+import trellogitintegration.utils.ValidationUtils;
 import trellogitintegration.wizard.properties.github.GitHubConfigGroup;
-import trellogitintegration.wizard.properties.utils.UIUtils;
 
+/**
+ * This class contains the configuration page for GitHub and Trello configurations
+ * Created: Nov 3, 2016
+ * @author Man Chon Kuok
+ */
 public class GitHubTrelloPropertyPage extends PropertyPage {
 
 	private static final int TEXT_FIELD_WIDTH = 50;
@@ -27,7 +33,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
 	private GitHubConfigGroup gitHubGroup;
 	
 	/**
-	 * Constructor for SamplePropertyPage.
+	 * Constructor for GitHubTrelloPropertyPage.
 	 */
 	public GitHubTrelloPropertyPage() {	  
 		super();
@@ -37,19 +43,23 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
 	 * @see PreferencePage#createContents(Composite)
 	 */
 	protected Control createContents(Composite parent) {
+	  ValidationUtils.checkNull(parent);
+	  
 	  loadProjectConfig();
-    Composite composite = this.getParentContainer(parent);   
+    Composite container = this.createContainer(parent);   
 		
     GridData gridData = new GridData();
     gridData.widthHint = convertWidthInCharsToPixels(TEXT_FIELD_WIDTH);
     
-    this.gitHubGroup = new GitHubConfigGroup(composite, gridData, this.projectConfig.getGitConfig());
-		UIUtils.addSeparator(composite);
+    this.gitHubGroup = new GitHubConfigGroup(container, gridData, this.projectConfig.getGitConfig());
+		UIUtils.addSeparator(container);
 		
-		return composite;
+		return container;
 	}
 
-	
+	/**
+	 * load the project configuration for the project that this property page is responsible for 
+	 */
 	private void loadProjectConfig() {
 	  this.projectName = ((IJavaProject) super.getElement()).getProject().getName();
     try {
@@ -59,7 +69,14 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
     }
 	}
 	
-	private Composite getParentContainer(Composite parent) {	  
+	/**
+	 * Creates a container to contain groups 
+	 * @param parent parent of the container
+	 * @return the container created
+	 */
+	private Composite createContainer(Composite parent) {	  
+	  ValidationUtils.checkNull(parent);
+	  
     Composite composite = new Composite(parent, SWT.NONE);
     GridLayout layout = new GridLayout();
     composite.setLayout(layout);
@@ -70,6 +87,10 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
     return composite;
 	}
 	
+	/**
+	 * Save configuration to the disk
+	 * @return true if saved ok, false otherwise
+	 */
 	private boolean persistConfig() {
 	  try {
       this.configManager.saveProjectConfig(this.projectName, this.projectConfig);
@@ -79,18 +100,29 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
     return true;
 	}
 	
-	
+  /**
+   * @inheritDoc
+   */
+  @Override
 	protected void performDefaults() {
 		super.performDefaults();
 		this.gitHubGroup.returnDefault();
 	}
 	
+  /**
+   * @inheritDoc
+   */
+  @Override
 	public boolean performOk() {
 	  this.gitHubGroup.save();
 	  
 	  return persistConfig();
 	}
 
+  /**
+   * @inheritDoc
+   */
+  @Override
 	public void performApply() {
 	  this.gitHubGroup.apply();
 	  

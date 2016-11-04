@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import trellogitintegration.persist.IOUtils;
+import trellogitintegration.utils.ValidationUtils;
 
 /**
  * REST API Connector that provides access to an URL using GET, PUT, POST, and
@@ -41,6 +42,9 @@ public class RestApiConnector {
    */
   public static <T> T get(String url, Map<String, String> headerProperties,
       Class<T> returnClass) throws IOException {
+    ValidationUtils.checkNull(headerProperties, returnClass);
+    ValidationUtils.checkNullOrEmpty(url);
+    
     HttpURLConnection connection = configureConnection(url, headerProperties);
     connection.setRequestMethod(GET);
     connection.connect();
@@ -191,6 +195,9 @@ public class RestApiConnector {
   private static <T> String writeToUrl(String url,
       Map<String, String> headerProperties, String method, T pojoObject)
       throws IOException {
+    ValidationUtils.checkNull(headerProperties, pojoObject);
+    ValidationUtils.checkNullOrEmpty(url, method);
+    
     HttpURLConnection connection = configureConnection(url, headerProperties);
     connection.setRequestMethod(method);
     connection.connect();
@@ -228,6 +235,9 @@ public class RestApiConnector {
    */
   private static HttpURLConnection configureConnection(String urlString,
       Map<String, String> headerProperties) throws IOException {
+    ValidationUtils.checkNull(headerProperties);
+    ValidationUtils.checkNullOrEmpty(urlString);
+    
     URL url = new URL(urlString);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestProperty("Content-Type", "application/json");
