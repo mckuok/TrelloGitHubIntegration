@@ -172,7 +172,7 @@ public class GitOperationButtonListener implements MouseListener {
         InputHandler handler = inputIterator.next();
         OperationResult<String> result = this.gitManager
             .execute(handler.getOperation(), handler.getUserInput());
-        output.append(result.getDisplayableMessage());
+        output.append(result.getDisplayableMessage()).append("\n");
 
         if (!result.isSuccessful()) {
           break;

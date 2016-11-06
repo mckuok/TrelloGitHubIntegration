@@ -21,7 +21,13 @@ public class GitValidatedResult extends OperationResult<String> {
    */
   @Override
   public String getDisplayableMessage() {
-    return this.getOutput();
+    String output = this.getOutput();
+    if (output.contains("could not read Username")) {
+      output = "Failed to authenticate, please add the SSH for GitHub to this computer."
+          + "\nVisit https://help.github.com/articles/generating-an-ssh-key/ for more details.";
+    }
+    
+    return output;
   }
 
 }

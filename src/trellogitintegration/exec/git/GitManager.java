@@ -70,7 +70,7 @@ public class GitManager {
   public OperationResult<String> checkOutBranch(String branchName) throws Exception {
     OperationResult<String> result = this.getResult(GitOperation.CHECKOUT_BRANCH, branchName); 
     
-    if (result.isSuccessful() || result.getOutput().contains("Please, commit your changes or stash them")) {
+    if (result.isSuccessful() || result.getDisplayableMessage().contains("Please, commit your changes or stash them")) {
       return result;
     } else {
       result = this.getResult(GitOperation.NEW_BRANCH, branchName);
@@ -195,7 +195,7 @@ public class GitManager {
 
   
   private String[] getBranchList() throws Exception {
-    String branchList = this.getResult(GitOperation.BRANCH).getOutput();
+    String branchList = this.getResult(GitOperation.BRANCH).getDisplayableMessage();
     String[] branches = branchList.split("\n");
     return branches;
   }
