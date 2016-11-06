@@ -182,6 +182,7 @@ public class GitOperationButtonListener implements MouseListener {
       output.append(exception.getMessage());
     }
     this.parent.updateOutputArea(output.toString());
+    this.parent.updateCurrentBranch();
   }
 
 }

@@ -53,6 +53,7 @@ public class GitHubViewGroup extends GroupTemplate {
 
     this.gitManager = gitManager;
 
+   
     this.addBranchInfo();
     this.addButtonGroup();
     this.addButtonActionListeners();
@@ -70,7 +71,13 @@ public class GitHubViewGroup extends GroupTemplate {
    * @param currentBranchName
    *          the name of the branch, null if not a git repo
    */
-  public void updateCurrentBranch(String currentBranchName) {
+  public void updateCurrentBranch() {
+    String currentBranchName = "";
+    try {
+      currentBranchName = this.gitManager.getCurrentBranch();
+    } catch (Exception e2) {
+      currentBranchName = "Unable to resolve current branch";
+    }    
     if (currentBranchName != null) {
       this.currentBranch.setText("Current Branch: " + currentBranchName);
     } else {
@@ -99,15 +106,8 @@ public class GitHubViewGroup extends GroupTemplate {
    * Display the branch information on the UI
    */
   private void addBranchInfo() {
-    String currentBranchName = "";
-    try {
-      currentBranchName = this.gitManager.getCurrentBranch();
-    } catch (Exception e2) {
-      currentBranchName = "Unable to resolve current branch";
-    }
     this.currentBranch = new Label(this, SWT.NONE);
-    this.updateCurrentBranch(currentBranchName);
-
+    this.updateCurrentBranch();
     UIUtils.addLabel(this, "");
   }
 

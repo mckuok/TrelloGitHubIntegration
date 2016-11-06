@@ -15,17 +15,29 @@ import trellogitintegration.utils.ValidationUtils;
 
 public class UIUtils {
 
+  /**
+   * Add a label to the parent
+   * @param parent parent of the label
+   * @param text default lable message
+   */
   public static void addLabel(Composite parent, String text) {
     Label label = new Label(parent, SWT.NONE);
     label.setText(text);
   }
   
+  /**
+   * 
+   * @param parent
+   * @param gridData
+   * @param defaultText
+   * @return
+   */
   public static Text addInputTextBox(Composite parent, GridData gridData, String defaultText) {
     Text textbox = new Text(parent, SWT.SEARCH | SWT.SINGLE | SWT.BORDER);
     textbox.setLayoutData(gridData);
     textbox.setText(defaultText);
     return textbox;
-  }
+  } 
   
   public static void addSeparator(Composite parent) {
     Label separator = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
