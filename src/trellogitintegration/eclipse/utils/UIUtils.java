@@ -40,10 +40,11 @@ public class UIUtils {
    * @return
    */
   public static Text addInputTextBox(Composite parent, GridData gridData,
-      String defaultText) {
+      String defaultText, String hintText) {
     Text textbox = new Text(parent, SWT.SEARCH | SWT.SINGLE | SWT.BORDER);
     textbox.setLayoutData(gridData);
     textbox.setText(defaultText);
+    textbox.setMessage(hintText);
     return textbox;
   }
 

@@ -47,10 +47,10 @@ public class GitHubConfigGroup extends GroupTemplate implements WizardActions {
 
     UIUtils.addLabel(this, REPO_URL);
     this.repoText = UIUtils.addInputTextBox(this, this.gridData,
-        this.gitConfig.getRepo());
+        this.gitConfig.getRepo(), "Repo URL ex) https://github.com/mckuok/gitpractice");
     UIUtils.addLabel(this, GITHUB_TOKEN);
     this.tokenText = UIUtils.addInputTextBox(this, this.gridData,
-        this.gitConfig.getToken());
+        this.gitConfig.getToken(), "Token from the GitHub Settings");
   }
 
   /**

@@ -47,9 +47,7 @@ public class TextInputHandler extends InputHandler {
           GitDisplayable.getInstruction(this.getOperation()));
       GridData gridData = new GridData();
       gridData.widthHint = 250;
-      this.texbox = UIUtils.addInputTextBox(parent, gridData, "");
-      this.texbox
-          .setMessage(GitDisplayable.getArgumentHintText(this.getOperation()));
+      this.texbox = UIUtils.addInputTextBox(parent, gridData, "", GitDisplayable.getArgumentHintText(this.getOperation()));
     }
   }
 
