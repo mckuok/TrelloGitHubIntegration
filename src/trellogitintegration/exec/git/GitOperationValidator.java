@@ -52,7 +52,7 @@ public class GitOperationValidator {
   }
   
   private static boolean validateCommit(String output) {
-    return output.contains("file changed");
+    return output.contains("file changed") || output.contains("files changed");
   }
   
   private static boolean validateNewBranch(String output) {
