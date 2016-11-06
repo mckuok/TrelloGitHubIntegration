@@ -70,7 +70,7 @@ public class GitManager {
   public OperationResult<String> checkOutBranch(String branchName) throws Exception {
     OperationResult<String> result = this.getResult(GitOperation.CHECKOUT_BRANCH, branchName); 
     
-    if (result.isSuccessful()) {
+    if (result.isSuccessful() || result.getOutput().contains("Please, commit your changes or stash them")) {
       return result;
     } else {
       result = this.getResult(GitOperation.NEW_BRANCH, branchName);

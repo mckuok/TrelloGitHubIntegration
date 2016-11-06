@@ -24,34 +24,39 @@ import trellogitintegration.utils.ValidationUtils;
 public class GroupTemplate extends Group {
 
   /**
-   * Create a group under the parent, with title and number of column specified 
+   * Create a group under the parent, with title and number of column specified
    * in the parameters
-   * @param parent parent of this group
-   * @param title Title of the group
-   * @param columnNum  number of columns in a grid layout
+   * 
+   * @param parent
+   *          parent of this group
+   * @param title
+   *          Title of the group
+   * @param columnNum
+   *          number of columns in a grid layout
    */
   public GroupTemplate(Composite parent, String title, int columnNum) {
     super(parent, SWT.SHADOW_ETCHED_IN);
     ValidationUtils.checkNull(parent);
     ValidationUtils.checkNullOrEmpty(title);
     ValidationUtils.checkNegative(columnNum);
-    
+
     GridLayout layout = new GridLayout();
     layout.numColumns = columnNum;
     this.setLayout(layout);
-    
+
     GridData data = new GridData();
     data.verticalAlignment = GridData.FILL;
     data.horizontalAlignment = GridData.FILL;
     this.setLayoutData(data);
-    
+
     this.setText(title);
   }
-  
+
   /**
-   * Suppresses extension exception 
+   * Suppresses extension exception
    */
-  public void checkSubclass(){}
+  public void checkSubclass() {
+  }
  
 
 }

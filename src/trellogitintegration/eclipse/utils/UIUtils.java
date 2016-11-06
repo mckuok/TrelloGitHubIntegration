@@ -4,11 +4,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Text;
+
+import trellogitintegration.utils.ValidationUtils;
 
 public class UIUtils {
 
@@ -64,5 +67,21 @@ public class UIUtils {
     int y = bounds.y + (bounds.height - rect.height) / 2;
     
     child.setLocation(x, y);
+  }
+  
+  public static Composite createContainer(Composite parent, int numOfColumns) {
+  ValidationUtils.checkNull(parent);
+    
+    Composite container = new Composite(parent, SWT.NONE);
+    GridLayout layout = new GridLayout();
+    layout.numColumns = numOfColumns;
+    container.setLayout(layout);
+
+    GridData data = new GridData();
+    data.verticalAlignment = GridData.FILL;
+    data.horizontalAlignment = GridData.FILL;
+    container.setLayoutData(data);
+
+    return container;
   }
 }
