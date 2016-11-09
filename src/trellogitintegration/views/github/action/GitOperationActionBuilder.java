@@ -1,4 +1,4 @@
-package trellogitintegration.views.github;
+package trellogitintegration.views.github.action;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,6 +10,7 @@ import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.exec.git.GitOperation;
 import trellogitintegration.utils.ValidationUtils;
 import trellogitintegration.views.InputType;
+import trellogitintegration.views.github.GitRepoViewGroup;
 
 /**
  * This class is intended to build a GitOperationButtionListener object that
@@ -34,7 +35,7 @@ public class GitOperationActionBuilder {
   private List<GitOperation> gitOperationList = new LinkedList<>();
   private List<String> argumentList = new ArrayList<>();
   private List<String[]> optionList = new ArrayList<>();
-  private GitHubViewGroup parent;
+  private GitRepoViewGroup parent;
   private GitManager gitManager;
   private boolean needShell = false;
 
@@ -44,7 +45,7 @@ public class GitOperationActionBuilder {
    * @param parent parent of the button
    * @param gitManager gitManager for the project
    */
-  private GitOperationActionBuilder(GitHubViewGroup parent,
+  private GitOperationActionBuilder(GitRepoViewGroup parent,
       GitManager gitManager) {
     ValidationUtils.checkNull(parent, gitManager);
 
@@ -60,7 +61,7 @@ public class GitOperationActionBuilder {
    * @param gitManager
    *          gitManager responsible for this project
    */
-  public static GitOperationActionBuilder create(GitHubViewGroup parent,
+  public static GitOperationActionBuilder create(GitRepoViewGroup parent,
       GitManager gitManager) {
     return new GitOperationActionBuilder(parent, gitManager);
   }
@@ -129,7 +130,7 @@ public class GitOperationActionBuilder {
     this.optionList.set(this.optionList.size() - 1, options);
     return this;
   }
-
+  
   /**
    * Build the GitOperationButtonListener using the previous settings
    * @return a GitOperationButtonListener with all the settings configured

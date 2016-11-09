@@ -1,4 +1,4 @@
-package trellogitintegration.views.github;
+package trellogitintegration.views.github.action;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -10,6 +10,7 @@ import trellogitintegration.eclipse.utils.UIUtils;
 import trellogitintegration.exec.git.GitDisplayable;
 import trellogitintegration.exec.git.GitOperation;
 import trellogitintegration.utils.ValidationUtils;
+import trellogitintegration.views.github.CommandDisplayer;
 
 /**
  * This class creates an input handler with radio buttons. Only one button can

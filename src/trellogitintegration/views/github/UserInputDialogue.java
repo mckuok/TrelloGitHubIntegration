@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import trellogitintegration.eclipse.utils.UIUtils;
 import trellogitintegration.utils.ValidationUtils;
+import trellogitintegration.views.github.action.InputHandler;
 
 /**
  * This class creates an input dialogue for user input. The input field is

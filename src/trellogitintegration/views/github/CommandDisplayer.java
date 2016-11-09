@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 import trellogitintegration.utils.ValidationUtils;
+import trellogitintegration.views.github.action.InputHandler;
 
 /**
  * This class creates a text field for displaying commands and its arguments

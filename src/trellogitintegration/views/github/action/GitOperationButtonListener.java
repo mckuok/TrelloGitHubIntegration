@@ -1,4 +1,4 @@
-package trellogitintegration.views.github;
+package trellogitintegration.views.github.action;
 
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +15,9 @@ import trellogitintegration.eclipse.utils.UIUtils;
 import trellogitintegration.exec.OperationResult;
 import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.utils.ValidationUtils;
+import trellogitintegration.views.github.CommandDisplayer;
+import trellogitintegration.views.github.GitRepoViewGroup;
+import trellogitintegration.views.github.UserInputDialogue;
 
 /**
  * Listener in charge of performing git related operations when their button is
@@ -28,7 +31,7 @@ import trellogitintegration.utils.ValidationUtils;
  */
 public class GitOperationButtonListener implements MouseListener {
 
-  private final GitHubViewGroup parent;
+  private final GitRepoViewGroup parent;
   private final List<InputHandler> inputHandlerList;
   private final boolean needShell;
   private final GitManager gitManager;
@@ -46,7 +49,7 @@ public class GitOperationButtonListener implements MouseListener {
    * @param needShell
    *          true if the button should pop up a new shell for argument input
    */
-  public GitOperationButtonListener(GitHubViewGroup parent,
+  public GitOperationButtonListener(GitRepoViewGroup parent,
       GitManager gitManager, List<InputHandler> inputHandlerList,
       boolean needShell) {
     ValidationUtils.checkNull(parent, gitManager, inputHandlerList);

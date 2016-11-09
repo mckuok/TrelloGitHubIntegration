@@ -9,7 +9,7 @@ import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.persist.config.ConfigManager;
 import trellogitintegration.persist.config.ProjectConfig.GitConfig;
 import trellogitintegration.utils.ValidationUtils;
-import trellogitintegration.views.github.GitHubViewGroup;
+import trellogitintegration.views.github.GitRepoViewGroup;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
@@ -62,7 +62,7 @@ public class PluginView extends ViewPart {
       try {
         File projectDirectory = tab.getProject().getLocation().toFile();
         GitConfig gitConfig = this.configManager.loadProjectConfig(tab.getProject().getName()).getGitConfig();
-        new GitHubViewGroup(tab.getContentArea(), new GitManager(projectDirectory, gitConfig));
+        new GitRepoViewGroup(tab.getContentArea(), new GitManager(projectDirectory, gitConfig));
       } catch (Exception e) {
         e.printStackTrace();
       }

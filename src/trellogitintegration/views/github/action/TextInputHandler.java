@@ -1,4 +1,4 @@
-package trellogitintegration.views.github;
+package trellogitintegration.views.github.action;
 
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -10,6 +10,7 @@ import trellogitintegration.eclipse.utils.UIUtils;
 import trellogitintegration.exec.git.GitDisplayable;
 import trellogitintegration.exec.git.GitOperation;
 import trellogitintegration.utils.ValidationUtils;
+import trellogitintegration.views.github.CommandDisplayer;
 
 /**
  * This class creates a text box for user input for the given git operation's

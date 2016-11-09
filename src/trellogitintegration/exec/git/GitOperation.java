@@ -3,8 +3,8 @@ package trellogitintegration.exec.git;
 public enum GitOperation {
 
   INIT("git init"),
-  PUSH("git push origin %s"),
-  PULL("git pull origin %s"),
+  PUSH("git push %s"),
+  PULL("git pull %s"),
   ADD("git add %s"),
   ADD_ALL("git add ."),
   COMMIT("git commit -m \"%s\""),

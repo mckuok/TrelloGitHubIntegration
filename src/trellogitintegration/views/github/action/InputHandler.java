@@ -1,10 +1,11 @@
-package trellogitintegration.views.github;
+package trellogitintegration.views.github.action;
 
 import org.eclipse.swt.widgets.Composite;
 
 import trellogitintegration.exec.git.GitDisplayable;
 import trellogitintegration.exec.git.GitOperation;
 import trellogitintegration.utils.ValidationUtils;
+import trellogitintegration.views.github.CommandDisplayer;
 
 /**
  * Abstract class for input handler for taking user input for a given git
