@@ -29,8 +29,10 @@ public class ProjectConfig {
   
   private TrelloConfig trelloConfig  = new TrelloConfig();
   private GitConfig gitConfig = new GitConfig();
+  private PomodoroConfig pomodoroConfig = new PomodoroConfig();
     
-  public class GitConfig {
+
+	public class GitConfig {
     private String token = "";
     private String username = "";
     private String repo = "";
@@ -107,6 +109,102 @@ public class ProjectConfig {
     
   }
   
+  public class PomodoroConfig {
+  	private long pomodoroTime = 0;
+  	private int pomodoroCount = 0;
+  	private long breakTime = 0;
+  	private long longBreakTime = 0;
+  	private int longBreakFreq = 0;
+  	
+  	public PomodoroConfig() {}
+  	
+  	public PomodoroConfig(long pomodoroTime,
+  												int pomodoroCount,
+  												long breakTime,
+  												long longBreakTime,
+  												int longBreakFreq) {
+  		this.pomodoroTime = pomodoroTime;
+  		this.pomodoroCount = pomodoroCount;
+  		this.breakTime = breakTime;
+  		this.longBreakTime = longBreakTime;
+  		this.longBreakFreq = longBreakFreq;
+  	}
+
+		public long getPomodoroTime() {
+			return pomodoroTime;
+		}
+
+		public void setPomodoroTime(long pomodoroTime) {
+			this.pomodoroTime = pomodoroTime;
+		}
+
+		public int getPomodoroCount() {
+			return pomodoroCount;
+		}
+
+		public void setPomodoroCount(int pomodoroCount) {
+			this.pomodoroCount = pomodoroCount;
+		}
+
+		public long getBreakTime() {
+			return breakTime;
+		}
+
+		public void setBreakTime(long breakTime) {
+			this.breakTime = breakTime;
+		}
+
+		public long getLongBreakTime() {
+			return longBreakTime;
+		}
+
+		public void setLongBreakTime(long longBreakTime) {
+			this.longBreakTime = longBreakTime;
+		}
+
+		public int getLongBreakFreq() {
+			return longBreakFreq;
+		}
+
+		public void setLongBreakFreq(int longBreakFreq) {
+			this.longBreakFreq = longBreakFreq;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + (int) (breakTime ^ (breakTime >>> 32));
+			result = prime * result + longBreakFreq;
+			result = prime * result + (int) (longBreakTime ^ (longBreakTime >>> 32));
+			result = prime * result + pomodoroCount;
+			result = prime * result + (int) (pomodoroTime ^ (pomodoroTime >>> 32));
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			PomodoroConfig other = (PomodoroConfig) obj;
+			if (breakTime != other.breakTime)
+				return false;
+			if (longBreakFreq != other.longBreakFreq)
+				return false;
+			if (longBreakTime != other.longBreakTime)
+				return false;
+			if (pomodoroCount != other.pomodoroCount)
+				return false;
+			if (pomodoroTime != other.pomodoroTime)
+				return false;
+			return true;
+		}
+
+}
   
   public class TrelloConfig {
     private String url = "";
@@ -211,41 +309,13 @@ public class ProjectConfig {
     this.gitConfig = gitConfig;
   }
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((gitConfig == null) ? 0 : gitConfig.hashCode());
-    result = prime * result
-        + ((trelloConfig == null) ? 0 : trelloConfig.hashCode());
-    return result;
-  }
+  public PomodoroConfig getPomodoroConfig() {
+		return pomodoroConfig;
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    ProjectConfig other = (ProjectConfig) obj;
-    if (gitConfig == null) {
-      if (other.gitConfig != null)
-        return false;
-    } else if (!gitConfig.equals(other.gitConfig))
-      return false;
-    if (trelloConfig == null) {
-      if (other.trelloConfig != null)
-        return false;
-    } else if (!trelloConfig.equals(other.trelloConfig))
-      return false;
-    return true;
-  }
+	public void setPomodoroConfig(PomodoroConfig pomodoroConfig) {
+		this.pomodoroConfig = pomodoroConfig;
+	}
 
-  
-
-  
-  
 }
   

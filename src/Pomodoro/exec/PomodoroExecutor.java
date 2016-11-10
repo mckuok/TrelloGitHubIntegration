@@ -71,7 +71,7 @@ public class PomodoroExecutor {
 			this.isFinished();
 			break;
 		default:
-			throw new Exception("Couldn't pick current timer\n");
+			throw new UnsupportedOperationException("Couldn't pick current timer\n");
 		}
 	}
 	
