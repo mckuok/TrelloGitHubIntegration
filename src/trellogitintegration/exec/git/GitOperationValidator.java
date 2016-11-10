@@ -12,6 +12,8 @@ public class GitOperationValidator {
       return validatePull(output);
     case ADD:
       return validateAdd(output);
+    case ADD_ALL:
+      return validateAdd(output);
     case COMMIT:
       return validateCommit(output);
     case NEW_BRANCH:
@@ -26,6 +28,8 @@ public class GitOperationValidator {
       return validateLog(output);
     case CLONE:
       return validateClone(output);
+    case BRANCH:
+      return validateBranch(output);
     default:
       throw new UnsupportedOperationException();
     }
@@ -48,7 +52,7 @@ public class GitOperationValidator {
   }
   
   private static boolean validateCommit(String output) {
-    return output.contains("file changed");
+    return output.contains("file changed") || output.contains("files changed");
   }
   
   private static boolean validateNewBranch(String output) {
@@ -73,5 +77,9 @@ public class GitOperationValidator {
   
   private static boolean validateClone(String output) {
     return output.startsWith("Cloning into");
+  }
+  
+  private static boolean validateBranch(String output) {
+    return output.contains("*");
   }
 }

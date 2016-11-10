@@ -8,6 +8,7 @@ package trellogitintegration.exec;
  */
 public class CommandUnrecognizedException extends Exception {
   
+  private static final long serialVersionUID = -4194868372383461765L;
   public static final String INVALID_PROGRAM_TEMPLATE = "Cannot run program";
   
   public CommandUnrecognizedException(String message) {

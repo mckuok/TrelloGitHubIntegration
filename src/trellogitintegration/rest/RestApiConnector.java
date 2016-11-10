@@ -1,15 +1,14 @@
 package trellogitintegration.rest;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import trellogitintegration.persist.IOUtils;
+import trellogitintegration.utils.ValidationUtils;
 
 /**
  * REST API Connector that provides access to an URL using GET, PUT, POST, and
@@ -21,11 +20,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class RestApiConnector {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-  private static final String GET = "GET";
-  private static final String PUT = "PUT";
-  private static final String POST = "POST";
-  private static final String DELETE = "DELETE";
+  public static final String GET = "GET";
+  public static final String PUT = "PUT";
+  public static final String POST = "POST";
+  public static final String DELETE = "DELETE";
 
   /**
    * Sends a GET request to the url, and get back an object deserialized from
@@ -33,45 +31,94 @@ public class RestApiConnector {
    * 
    * @param url
    *          the target URL
-   * @param pojoClass
+   * @param headerProperties
+   *          Extra properties to insert to the HTTP / HTTPS header
+   * @param returnClass
    *          Class that the JSON String should be deserialized to. Must contain
    *          a default constructor
    * @return the object deserialized from the JSON string from the GET request
    * @throws IOException
    *           when connection goes wrong
    */
-  public static <T> T get(String url, Class<T> pojoClass) throws IOException {
-    HttpURLConnection connection = configureConnection(url);
+  public static <T> T get(String url, Map<String, String> headerProperties,
+      Class<T> returnClass) throws IOException {
+    ValidationUtils.checkNull(headerProperties, returnClass);
+    ValidationUtils.checkNullOrEmpty(url);
+    
+    HttpURLConnection connection = configureConnection(url, headerProperties);
     connection.setRequestMethod(GET);
     connection.connect();
-    StringBuilder result = new StringBuilder();
 
-    BufferedReader reader = new BufferedReader(new InputStreamReader(
-        connection.getInputStream(), Charset.forName("UTF-8")));
-    String line;
-    while ((line = reader.readLine()) != null) {
-      result.append(line);
+    T jsonObject = null;
+    try {
+      String content = IOUtils.readFromStream(connection.getInputStream());
+      jsonObject = JsonStringConverter.toObject(content, returnClass);
+    } catch (IOException e) {
+      String message = e.getMessage() + "\n"
+          + IOUtils.readFromStream(connection.getErrorStream());
+      throw new IOException(message);
+    } finally {
+      connection.disconnect();
     }
-    reader.close();
-    connection.disconnect();
-    T jsonObject = MAPPER.readValue(result.toString(), pojoClass);
+
     return jsonObject;
 
   }
 
   /**
-   * Sends a POST request to the url with the provided pojoObject
+   * Sends a GET request to the url, and get back an object deserialized from
+   * the JSON string
+   * 
+   * @param url
+   *          the target URL
+   * @param returnClass
+   *          Class that the JSON String should be deserialized to. Must contain
+   *          a default constructor
+   * @return the object deserialized from the JSON string from the GET request
+   * @throws IOException
+   *           when connection goes wrong
+   */
+  public static <T> T get(String url, Class<T> returnClass) throws IOException {
+    return get(url, new HashMap<String, String>(), returnClass);
+  }
+
+  /**
+   * Sends a POST request to the url with the provided pojoObject and return the
+   * reply as a String
+   * 
+   * @param <S>
+   * 
+   * @param url
+   *          the target URL
+   * @param headerProperties
+   *          Extra properties to insert to the HTTP / HTTPS header
+   * @param pojoObject
+   *          Object to send to the URL
+   * @return the reply as a String
+   * @throws IOException
+   *           when connection goes wrong
+   */
+  public static <T> String post(String url,
+      Map<String, String> headerProperties, T pojoObject) throws IOException {
+    return writeToUrl(url, headerProperties, POST, pojoObject);
+  }
+
+  /**
+   * Sends a POST request to the url with the provided pojoObject and return the
+   * reply as a String
+   * 
+   * @param <S>
    * 
    * @param url
    *          the target URL
    * @param pojoObject
    *          Object to send to the URL
-   * @return status code
+   * @return the reply as a String
    * @throws IOException
    *           when connection goes wrong
    */
-  public static <T> int post(String url, T pojoObject) throws IOException {
-    return writeToUrl(url, POST, pojoObject);
+  public static <T> String post(String url, T pojoObject) throws IOException {
+    return post(url, new HashMap<String, String>(), pojoObject);
   }
 
   /**
@@ -79,14 +126,34 @@ public class RestApiConnector {
    * 
    * @param url
    *          the target URL
+   * @param headerProperties
+   *          Extra properties to insert to the HTTP / HTTPS header
    * @param pojoObject
    *          Object to send to the URL
    * @return status code
    * @throws IOException
    *           when connection goes wrong
    */
-  public static <T> int put(String url, T pojoObject) throws IOException {
-    return writeToUrl(url, PUT, pojoObject);
+  public static <T> String put(String url, Map<String, String> headerProperties,
+      T pojoObject) throws IOException {
+    return writeToUrl(url, headerProperties, PUT, pojoObject);
+  }
+
+  /**
+   * Sends a PUT request to the url with the provided pojoObject
+   * 
+   * @param url
+   *          the target URL
+   * @param headerProperties
+   *          Extra properties to insert to the HTTP / HTTPS header
+   * @param pojoObject
+   *          Object to send to the URL
+   * @return status code
+   * @throws IOException
+   *           when connection goes wrong
+   */
+  public static <T> String put(String url, T pojoObject) throws IOException {
+    return put(url, new HashMap<String, String>(), pojoObject);
   }
 
   /**
@@ -97,40 +164,56 @@ public class RestApiConnector {
    * @return
    * @throws IOException
    */
-  public static int delete(String url) throws IOException {
-    HttpURLConnection connection = configureConnection(url);
+  public static int delete(String url, Map<String, String> headerProperties)
+      throws IOException {
+    HttpURLConnection connection = configureConnection(url, headerProperties);
     connection.setRequestMethod(DELETE);
     connection.connect();
     return connection.getResponseCode();
   }
 
+  public static int delete(String url) throws IOException {
+    return delete(url, new HashMap<String, String>());
+  }
+
   /**
-   * Convert pojoObject to JSON String and write it to the url using the
-   * specified method
+   * Write the pojoObject to the URL as a JSON string with the specified header
+   * properties using the provided method.
    * 
    * @param url
-   *          the target URL
+   *          the target url
+   * @param headerProperties
+   *          header properties for the HTTP / HTTPS header
    * @param method
-   *          Method to write to the url (PUT, POST)
+   *          method to write to the URL (GET, POST, PUT, DELETE, etc)
    * @param pojoObject
-   *          Object to be sent
-   * @return status code
+   *          object to be deserialized into JSON string
+   * @return the reply from the request as a String
    * @throws IOException
+   *           when connection goes wrong
    */
-  private static <T> int writeToUrl(String url, String method, T pojoObject)
+  private static <T> String writeToUrl(String url,
+      Map<String, String> headerProperties, String method, T pojoObject)
       throws IOException {
-    HttpURLConnection connection = configureConnection(url);
+    ValidationUtils.checkNull(headerProperties, pojoObject);
+    ValidationUtils.checkNullOrEmpty(url, method);
+    
+    HttpURLConnection connection = configureConnection(url, headerProperties);
     connection.setRequestMethod(method);
     connection.connect();
 
-    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-        connection.getOutputStream(), Charset.forName("UTF-8")));
-    String jsonString = MAPPER.writeValueAsString(pojoObject);
-    writer.write(jsonString);
-    writer.flush();
-    writer.close();
-    connection.disconnect();
-    return connection.getResponseCode();
+    String jsonString = JsonStringConverter.toString(pojoObject);
+    IOUtils.writeToStream(connection.getOutputStream(), jsonString);
+    String reply = "";
+    try {
+      reply = IOUtils.readFromStream(connection.getInputStream());
+    } catch (IOException e) {
+      reply = IOUtils.readFromStream(connection.getErrorStream());
+    } finally {
+      connection.disconnect();
+    }
+
+    return reply;
   }
 
   /**
@@ -150,19 +233,26 @@ public class RestApiConnector {
    * @retur a configured HttpURLConnection object
    * @throws IOException
    */
-  private static HttpURLConnection configureConnection(String urlString)
-      throws IOException {
+  private static HttpURLConnection configureConnection(String urlString,
+      Map<String, String> headerProperties) throws IOException {
+    ValidationUtils.checkNull(headerProperties);
+    ValidationUtils.checkNullOrEmpty(urlString);
+    
     URL url = new URL(urlString);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestProperty("Content-Type", "application/json");
     connection.setRequestProperty("User-Agent",
         "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+
+    for (Entry<String, String> entry : headerProperties.entrySet()) {
+      connection.setRequestProperty(entry.getKey(), entry.getValue());
+    }
+
     connection.setConnectTimeout(5000);// 5 secs
     connection.setReadTimeout(5000);// 5 secs
     connection.setDoInput(true);
     connection.setDoOutput(true);
     return connection;
-
   }
 
 }

@@ -2,6 +2,8 @@ package trellogitintegration.exec.git;
 
 public class GitConfigException extends Exception {
 
+  private static final long serialVersionUID = 29547966603609985L;
+
   public GitConfigException(GitExceptionType exceptionType) {
     super(exceptionType.toString());
   }
