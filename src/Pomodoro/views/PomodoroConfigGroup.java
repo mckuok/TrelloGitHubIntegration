@@ -36,8 +36,6 @@ public class PomodoroConfigGroup extends GroupTemplate implements WizardActions 
 	
 	@Override
 	public void returnDefault() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -48,8 +46,11 @@ public class PomodoroConfigGroup extends GroupTemplate implements WizardActions 
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
-		
+		this.config.setPomodoroCount(Integer.parseInt(this.pomodoroText.getText()));
+		this.config.setPomodoroTime(Long.parseLong(this.timerText.getText()));
+		this.config.setBreakTime(Long.parseLong(this.breakText.getText()));
+		this.config.setLongBreakTime(Long.parseLong(this.longText.getText()));
+		this.config.setLongBreakFreq(Integer.parseInt(this.freqText.getText()));
 	}
 	
 }

@@ -130,7 +130,8 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
   @Override
   public boolean performOk() {
     this.gitHubGroup.save();
-
+    this.pomodoroGroup.save();
+    
     return persistConfig();
   }
 
