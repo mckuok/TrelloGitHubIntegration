@@ -83,7 +83,7 @@ public class PomodoroExecutor {
 	
 	public void countdown() throws Exception {
 		while (this.getCurrentPomodoro() != this.getTimer().getPomodoros()) {
-			while (this.getCountdownTime() != 0 && !this.pause) {		//TODO: Implement Interrupt to pause/unpause
+			while (this.getCountdownTime() != 0 && !this.pause) {
 				this.delay_sec();
 				this.setCountdownTime(this.getCountdownTime() - 1);
 			}
