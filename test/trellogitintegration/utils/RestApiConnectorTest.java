@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import org.junit.Test;
 
 import trellogitintegration.json.SampleJsonData;
+import trellogitintegration.rest.JsonStringConverter;
 import trellogitintegration.rest.RestApiConnector;
 
 public class RestApiConnectorTest {
@@ -35,8 +36,9 @@ public class RestApiConnectorTest {
     jsonObject.setBody("body");
     jsonObject.setTitle("title");
 
-    int statusCode = RestApiConnector.post(root + "/posts", jsonObject);
-    assertEquals(HttpURLConnection.HTTP_CREATED, statusCode);
+    String reply = RestApiConnector.post(root + "/posts", jsonObject);
+    jsonObject.setId(101);  // fixed pseudo id 
+    assertEquals(jsonObject, JsonStringConverter.toObject(reply, SampleJsonData.class));
   }
 
   @Test
@@ -46,8 +48,9 @@ public class RestApiConnectorTest {
     jsonObject.setBody("body");
     jsonObject.setTitle("title");
 
-    int statusCode = RestApiConnector.put(root + "/posts/1", jsonObject);
-    assertEquals(HttpURLConnection.HTTP_OK, statusCode);
+    String reply = RestApiConnector.put(root + "/posts/1", jsonObject);
+    jsonObject.setId(1);     // fixed pseudo id 
+    assertEquals(jsonObject, JsonStringConverter.toObject(reply, SampleJsonData.class));
   }
 
   @Test
