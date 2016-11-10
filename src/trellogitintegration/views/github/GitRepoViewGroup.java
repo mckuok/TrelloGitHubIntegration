@@ -1,6 +1,8 @@
 
 package trellogitintegration.views.github;
 
+import java.util.Arrays;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -24,6 +26,7 @@ public class GitRepoViewGroup extends GroupTemplate {
   private Label currentBranch;
   
   private Text outputArea;
+  private Composite buttonContainer;
   
   /**
    * Create a GitHub group for the viwe UI
@@ -40,21 +43,9 @@ public class GitRepoViewGroup extends GroupTemplate {
     this.gitManager = gitManager;
 
    
-    this.addBranchInfo();
-    
-    ButtonGroup buttonGroup = null;
-    if (this.gitManager.status().isSuccessful()) {
-      buttonGroup = new GitRepoButtonGroup(this, this.gitManager);
-    } else {
-      buttonGroup = new GitNonRepoButtonGroup(this, this.gitManager);
-    }
-    
-    buttonGroup.addToGUI();    
-    this.addControlListener(buttonGroup.getResizeController());
-    this.addPaintListener(buttonGroup.getResizeController());
-    this.addOutputArea();
-
-    
+    this.addBranchInfo();    
+    this.updateButtonGroup();    
+    this.addOutputArea();    
   }
 
   /**
@@ -74,7 +65,7 @@ public class GitRepoViewGroup extends GroupTemplate {
     if (currentBranchName != null) {
       this.currentBranch.setText("Current Branch: " + currentBranchName);
     } else {
-      this.currentBranch.setText("This is not a git repo");
+      this.currentBranch.setText("This is project does not contain any branch information");
     }
   }
 
@@ -88,7 +79,42 @@ public class GitRepoViewGroup extends GroupTemplate {
     ValidationUtils.checkNull(output);
     this.outputArea.setText(output);
   }
+  
+  
+  /**
+   * Update button group depending on rather it is a git repo or not
+   * @throws Exception
+   */
+  public void updateButtonGroup() throws Exception {
+    if (this.buttonContainer == null) {
+      this.buttonContainer = UIUtils.createContainer(this, 1);
+    } else {
+      UIUtils.removeAllChildren(this.buttonContainer);
+      Arrays.stream(this.getListeners(SWT.Paint)).forEach(listener -> this.removeListener(SWT.Paint, listener));
+      Arrays.stream(this.getListeners(SWT.Resize)).forEach(listener -> this.removeListener(SWT.Resize, listener));
+      Arrays.stream(this.getListeners(SWT.Move)).forEach(listener -> this.removeListener(SWT.Move, listener));
+    }
+    
+    ButtonGroup buttonGroup = null;
+    if (this.gitManager.status().isSuccessful()) {
+      buttonGroup = new GitRepoButtonGroup(this, this.gitManager);
+    } else {
+      buttonGroup = new GitNonRepoButtonGroup(this, this.gitManager);
+    }
+    
+    buttonGroup.addToGUI(this.buttonContainer);
+    
+    this.addControlListener(buttonGroup.getResizeController());
+    this.addPaintListener(buttonGroup.getResizeController());
+    
+    this.layout(true);
+    this.redraw();
+    this.update();
+    this.requestLayout();   
+    
+  }
 
+  
   /**
    * Suppresses extension check
    */
@@ -100,8 +126,14 @@ public class GitRepoViewGroup extends GroupTemplate {
    */
   private void addBranchInfo() {
     this.currentBranch = new Label(this, SWT.NONE);
+    
+    GridData data = new GridData();
+    data.verticalAlignment = GridData.FILL;
+    data.horizontalAlignment = GridData.FILL;
+    data.horizontalSpan = 2;
+    this.currentBranch.setLayoutData(data);
+    
     this.updateCurrentBranch();
-    UIUtils.addLabel(this, "");
   }
 
   /**
@@ -112,6 +144,6 @@ public class GitRepoViewGroup extends GroupTemplate {
         SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
     this.outputArea.setLayoutData(new GridData(GridData.FILL_BOTH));
   }
-
+ 
 
 }

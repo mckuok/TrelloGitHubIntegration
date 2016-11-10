@@ -9,35 +9,69 @@ import org.eclipse.swt.widgets.Composite;
 
 import trellogitintegration.eclipse.utils.UIUtils;
 
+/**
+ * Button group that contains all the available operations for the given
+ * project 
+ * Created: Nov 10, 2016
+ * @author Man Chon Kuok
+ */
 public abstract class ButtonGroup {
 
-  private final Composite container;
-  private final GitRepoViewGroup parent;
+  private final GitRepoViewGroup viewGroup;
+  private Composite container;
+  private ButtonResizeController resizeController;
   
-  public ButtonGroup(GitRepoViewGroup parent) {
-    this.container = UIUtils.createContainer(parent, 1);
-    this.parent = parent;
+  /**
+   * Creates a button group
+   * @param viewGroup
+   */
+  public ButtonGroup(GitRepoViewGroup viewGroup) {
+    this.viewGroup = viewGroup;
   }
   
+  /**
+   * Add the buttons to the container
+   * @param container
+   */
   protected abstract void addButtonsToContainer(Composite container);
-  
+ 
+  /**
+   * Add action listeners for buttons 
+   * @throws Exception
+   */
   protected abstract void addActionListeners() throws Exception;
   
+  /**
+   * @return a list of buttons for the group
+   */
   protected abstract Button[] getButtons();
   
-  public void addToGUI() throws Exception {  
-    this.addButtonsToContainer(this.container);
+  /**
+   * Add the buttons to UI
+   * @param container
+   * @throws Exception
+   */
+  public void addToGUI(Composite container) throws Exception {  
+    this.container = container;
+    this.addButtonsToContainer(container);
     this.addActionListeners();
+    this.resizeController =  new ButtonResizeController(); 
     
-  
   }
   
+  /**
+   * @return project view group
+   */
   public GitRepoViewGroup getViewGroup() {
-    return this.parent;
+    return this.viewGroup;
   }
   
+  /**
+   * Get back the resize controller, must be called after addToGUI
+   * @return a ButtonResizeController
+   */
   public ButtonResizeController getResizeController() {
-    return new ButtonResizeController();
+    return this.resizeController;
   }
   
   /**

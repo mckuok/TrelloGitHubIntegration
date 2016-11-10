@@ -24,7 +24,7 @@ public class ValidationUtils {
       }
     }
   }
-
+ 
   /**
    * Throws IllegalArgumentException if the string is either null or empty
    * 

@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import trellogitintegration.eclipse.utils.UIUtils;
 import trellogitintegration.exec.OperationResult;
+import trellogitintegration.exec.ResultCallback;
 import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.utils.ValidationUtils;
 import trellogitintegration.views.github.CommandDisplayer;
@@ -31,15 +32,16 @@ import trellogitintegration.views.github.UserInputDialogue;
  */
 public class GitOperationButtonListener implements MouseListener {
 
-  private final GitRepoViewGroup parent;
+  private final GitRepoViewGroup viewGroup;
   private final List<InputHandler> inputHandlerList;
+  private final List<ResultCallback> callbackList;
   private final boolean needShell;
   private final GitManager gitManager;
 
   /**
    * Create a Button Listener for GitHub operations
    * 
-   * @param parent
+   * @param viewGroup
    *          parent of the button where the result can be displayed
    * @param gitManager
    *          gitManager responsible for this project
@@ -49,15 +51,16 @@ public class GitOperationButtonListener implements MouseListener {
    * @param needShell
    *          true if the button should pop up a new shell for argument input
    */
-  public GitOperationButtonListener(GitRepoViewGroup parent,
-      GitManager gitManager, List<InputHandler> inputHandlerList,
+  public GitOperationButtonListener(GitRepoViewGroup viewGroup,
+      GitManager gitManager, List<InputHandler> inputHandlerList, List<ResultCallback> callbackList,
       boolean needShell) {
-    ValidationUtils.checkNull(parent, gitManager, inputHandlerList);
+    ValidationUtils.checkNull(viewGroup, gitManager, inputHandlerList);
 
-    this.parent = parent;
+    this.viewGroup = viewGroup;
     this.gitManager = gitManager;
     this.inputHandlerList = inputHandlerList;
     this.needShell = needShell;
+    this.callbackList = callbackList;
   }
 
   /**
@@ -100,7 +103,7 @@ public class GitOperationButtonListener implements MouseListener {
 
       dialogue.setFocus();
       dialogue.pack();
-      UIUtils.centerShell(this.parent, dialogue);
+      UIUtils.centerShell(this.viewGroup, dialogue);
       dialogue.open();
     } else {
       executeCommandsForButton();
@@ -146,7 +149,7 @@ public class GitOperationButtonListener implements MouseListener {
    * @return a create shell
    */
   private Shell createDialogue() {
-    Shell dialogue = new Shell(this.parent.getDisplay());
+    Shell dialogue = new Shell(this.viewGroup.getDisplay());
     GridLayout layout = new GridLayout();
     layout.numColumns = 1;
     dialogue.setLayout(layout);
@@ -184,8 +187,10 @@ public class GitOperationButtonListener implements MouseListener {
     } catch (Exception exception) {
       output.append(exception.getMessage());
     }
-    this.parent.updateOutputArea(output.toString());
-    this.parent.updateCurrentBranch();
+    this.viewGroup.updateOutputArea(output.toString());
+    this.viewGroup.updateCurrentBranch();
+    
+    this.callbackList.forEach(callback -> callback.callback(output.toString()));
   }
 
 }
