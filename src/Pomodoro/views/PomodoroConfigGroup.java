@@ -24,11 +24,11 @@ public class PomodoroConfigGroup extends GroupTemplate implements WizardActions 
 		this.config = config;
 		UIUtils.addLabel(this, "How many Pomodoros do you want?");
 		this.pomodoroText = UIUtils.addInputTextBox(this, gridData, Integer.toString(this.config.getPomodoroCount()), "");
-		UIUtils.addLabel(this, "How long should a Pomodoro last?");
+		UIUtils.addLabel(this, "How long (in minutes) should a Pomodoro last?");
 		this.timerText = UIUtils.addInputTextBox(this, gridData, Long.toString(this.config.getPomodoroTime()), "");
-		UIUtils.addLabel(this, "How long should a break last?");
+		UIUtils.addLabel(this, "How long (in minutes) should a break last?");
 		this.breakText = UIUtils.addInputTextBox(this, gridData, Long.toString(this.config.getBreakTime()), "");
-		UIUtils.addLabel(this, "How long should a long break last?");
+		UIUtils.addLabel(this, "How long (in minutes) should a long break last?");
 		this.longText = UIUtils.addInputTextBox(this, gridData, Long.toString(this.config.getLongBreakTime()),  "");
 		UIUtils.addLabel(this, "How frequently should a long break occur?");
 		this.freqText = UIUtils.addInputTextBox(this, gridData, Integer.toString(this.config.getLongBreakFreq()), "");
@@ -36,11 +36,16 @@ public class PomodoroConfigGroup extends GroupTemplate implements WizardActions 
 	
 	@Override
 	public void returnDefault() {
+		this.pomodoroText.setText("3");
+		this.timerText.setText("10");
+		this.breakText.setText("2");
+		this.longText.setText("5");
+		this.freqText.setText("3");
 	}
 
 	@Override
 	public void apply() {
-		// TODO Auto-generated method stub
+		this.save();
 		
 	}
 

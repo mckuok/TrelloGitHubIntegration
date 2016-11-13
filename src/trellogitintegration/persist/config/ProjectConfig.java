@@ -110,11 +110,11 @@ public class ProjectConfig {
   }
   
   public class PomodoroConfig {
-  	private long pomodoroTime = 0;
-  	private int pomodoroCount = 1;
-  	private long breakTime = 10;
-  	private long longBreakTime = 0;
-  	private int longBreakFreq = 0;
+  	private long pomodoroTime = 10;
+  	private int pomodoroCount = 3;
+  	private long breakTime = 3;
+  	private long longBreakTime = 5;
+  	private int longBreakFreq = 3;
   	
   	public PomodoroConfig() {}
   	

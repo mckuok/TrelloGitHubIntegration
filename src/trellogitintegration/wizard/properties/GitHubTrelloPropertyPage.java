@@ -122,6 +122,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
   protected void performDefaults() {
     super.performDefaults();
     this.gitHubGroup.returnDefault();
+    this.pomodoroGroup.returnDefault();
   }
 
   /**
@@ -141,6 +142,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
   @Override
   public void performApply() {
     this.gitHubGroup.apply();
+    this.pomodoroGroup.apply();
 
     persistConfig();
   }
