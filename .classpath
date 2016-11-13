@@ -4,8 +4,11 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="lib" path="C:/Users/fyyhr/workspace/TrelloGitHubIntegration/libraries/jackson-databind-2.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/fyyhr/workspace/TrelloGitHubIntegration/libraries/jackson-annotations-2.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/fyyhr/workspace/TrelloGitHubIntegration/libraries/jackson-core-2.8.3.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/trello4j">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="trello4j/target"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/trello4j/Trello4java.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

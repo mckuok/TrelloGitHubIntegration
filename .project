@@ -3,6 +3,7 @@
 	<name>TrelloGitIntegration</name>
 	<comment></comment>
 	<projects>
+		<project>trello4j</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
