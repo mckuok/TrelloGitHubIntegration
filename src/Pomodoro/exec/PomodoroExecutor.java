@@ -1,7 +1,5 @@
 package pomodoro.exec;
 
-import java.util.Timer;
-
 import pomodoro.PomodoroTimer;
 
 /** 
@@ -12,7 +10,7 @@ import pomodoro.PomodoroTimer;
   * @author Conner Higashino
   */
 
-public class PomodoroExecutor {
+public class PomodoroExecutor implements Runnable{
 	
 	private PomodoroTimer timer;
 	/* times are all in seconds */
@@ -34,6 +32,7 @@ public class PomodoroExecutor {
 	
 	public PomodoroExecutor (PomodoroTimer timer) {
 		this.setTimer(timer);
+		this.initTimer();
 	}
 	
 	/* Executer functions */
@@ -49,23 +48,26 @@ public class PomodoroExecutor {
 		/* set long break timer */
 		this.setLongBreakTimeRemaining(this.getTimer().getLongBreakTime());
 		this.currentCountdown = currentTimer.POMODORO;
+		this.setCountdown();
+		this.resetCurrentPomodoro();
 		this.pause = false;
+		System.out.println("Initializing.  .  .");
 	}
 		
 	/**
 	 * Initialize a countdown timer based on which is the active timer
-	 * @throws Exception 
+	 * @throws UnsupportedOperationException 
 	 */
-	public void setCountdown() throws Exception {
+	public void setCountdown() throws UnsupportedOperationException {
 		switch (currentCountdown) {
 		case POMODORO:
-			countdownTime = this.getPomodoroTime();
+			this.countdownTime = this.getPomodoroTime();
 			break;
 		case BREAK:
-			countdownTime = this.getBreakTime();
+			this.countdownTime = this.getBreakTime();
 			break;
 		case LONGBREAK:
-			countdownTime = this.getLongBreakTime();
+			this.countdownTime = this.getLongBreakTime();
 			break;
 		case FINISHED:
 			this.isFinished();
@@ -81,8 +83,18 @@ public class PomodoroExecutor {
 	 * @throws Exception 
 	 */
 	
+	public void run() {
+		try {
+			this.initTimer();
+			this.countdown();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	public void countdown() throws Exception {
-		while (this.getCurrentPomodoro() != this.getTimer().getPomodoros()) {
+		while (this.getCurrentPomodoro() <= this.getTimer().getPomodoros()) {
 			while (this.getCountdownTime() != 0 && !this.pause) {
 				this.delay_sec();
 				this.setCountdownTime(this.getCountdownTime() - 1);
@@ -132,7 +144,7 @@ public class PomodoroExecutor {
 	}
 	
 	public void resetCurrentPomodoro() {
-		this.currentPomodoro = 0;
+		this.currentPomodoro = 1;
 	}
 	
 	/* pause */
@@ -195,6 +207,6 @@ public class PomodoroExecutor {
 	}
 	
 	public void isFinished() {
-		/* finished timer, don't know what it should do here though */
+		System.out.println("Done");
 	}
 }

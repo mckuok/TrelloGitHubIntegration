@@ -3,11 +3,15 @@ package trellogitintegration.views;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
 
+import pomodoro.PomodoroTimer;
+import pomodoro.exec.PomodoroExecutor;
+import pomodoro.views.PomodoroViewGroup;
 import trellogitintegration.Activator;
 import trellogitintegration.eclipse.utils.EclipseHelperUtils;
 import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.persist.config.ConfigManager;
 import trellogitintegration.persist.config.ProjectConfig.GitConfig;
+import trellogitintegration.persist.config.ProjectConfig.PomodoroConfig;
 import trellogitintegration.utils.ValidationUtils;
 import trellogitintegration.views.github.GitRepoViewGroup;
 import java.io.File;
@@ -62,7 +66,9 @@ public class PluginView extends ViewPart {
       try {
         File projectDirectory = tab.getProject().getLocation().toFile();
         GitConfig gitConfig = this.configManager.loadProjectConfig(tab.getProject().getName()).getGitConfig();
+        PomodoroConfig pomodoroConfig = this.configManager.loadProjectConfig(tab.getProject().getName()).getPomodoroConfig();
         new GitRepoViewGroup(tab.getContentArea(), new GitManager(projectDirectory, gitConfig));
+        new PomodoroViewGroup(tab.getContentArea(), new PomodoroExecutor(new PomodoroTimer(pomodoroConfig)));
       } catch (Exception e) {
         e.printStackTrace();
       }

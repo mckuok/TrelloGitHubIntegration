@@ -26,7 +26,7 @@ public class GitRepoViewGroup extends GroupTemplate {
   private Text outputArea;
   
   /**
-   * Create a GitHub group for the viwe UI
+   * Create a GitHub group for the view UI
    * 
    * @param parent
    * @param gitManager

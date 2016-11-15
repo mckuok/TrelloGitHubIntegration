@@ -7,16 +7,24 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import pomodoro.views.PomodoroViewGroup;
 import trellogitintegration.eclipse.utils.UIUtils;
 
 public abstract class ButtonGroup {
 
   private final Composite container;
   private final GitRepoViewGroup parent;
+  private final PomodoroViewGroup pomodoroParent;
   
   public ButtonGroup(GitRepoViewGroup parent) {
     this.container = UIUtils.createContainer(parent, 1);
     this.parent = parent;
+    this.pomodoroParent = null;
+  }
+  public ButtonGroup(PomodoroViewGroup pomodoroParent) {
+  	this.container = UIUtils.createContainer(pomodoroParent, 1);
+  	this.pomodoroParent = pomodoroParent;
+  	this.parent = null;
   }
   
   protected abstract void addButtonsToContainer(Composite container);
@@ -34,6 +42,10 @@ public abstract class ButtonGroup {
   
   public GitRepoViewGroup getViewGroup() {
     return this.parent;
+  }
+  
+  public PomodoroViewGroup getPomodoroViewGroup() {
+  	return this.pomodoroParent;
   }
   
   public ButtonResizeController getResizeController() {

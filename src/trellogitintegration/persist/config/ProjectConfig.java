@@ -130,11 +130,22 @@ public class ProjectConfig {
   		this.longBreakFreq = longBreakFreq;
   	}
 
+  	public void reset() {
+  		this.pomodoroCount = 3;
+  		this.pomodoroTime = 10;
+  		this.breakTime = 3;
+  		this.longBreakTime = 5;
+  		this.longBreakFreq = 3;
+  	}
+  	
 		public long getPomodoroTime() {
 			return pomodoroTime;
 		}
 
 		public void setPomodoroTime(long pomodoroTime) {
+			if (pomodoroTime <= 0) {
+				pomodoroTime = 10;
+			}
 			this.pomodoroTime = pomodoroTime;
 		}
 
@@ -143,6 +154,9 @@ public class ProjectConfig {
 		}
 
 		public void setPomodoroCount(int pomodoroCount) {
+			if (pomodoroCount <= 0) {
+				pomodoroCount = 3;
+			}
 			this.pomodoroCount = pomodoroCount;
 		}
 
@@ -151,6 +165,9 @@ public class ProjectConfig {
 		}
 
 		public void setBreakTime(long breakTime) {
+			if (breakTime <= 0) {
+				breakTime = 3;
+			}
 			this.breakTime = breakTime;
 		}
 
@@ -159,6 +176,9 @@ public class ProjectConfig {
 		}
 
 		public void setLongBreakTime(long longBreakTime) {
+			if (longBreakTime <= 0) {
+				longBreakTime = 5;
+			}
 			this.longBreakTime = longBreakTime;
 		}
 
@@ -167,6 +187,9 @@ public class ProjectConfig {
 		}
 
 		public void setLongBreakFreq(int longBreakFreq) {
+			if (longBreakFreq <= 0) {
+				longBreakFreq = 3;
+			}
 			this.longBreakFreq = longBreakFreq;
 		}
 

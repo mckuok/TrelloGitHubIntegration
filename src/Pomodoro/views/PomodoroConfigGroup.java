@@ -36,11 +36,12 @@ public class PomodoroConfigGroup extends GroupTemplate implements WizardActions 
 	
 	@Override
 	public void returnDefault() {
-		this.pomodoroText.setText("3");
-		this.timerText.setText("10");
-		this.breakText.setText("2");
-		this.longText.setText("5");
-		this.freqText.setText("3");
+		this.config.reset();
+		this.pomodoroText.setText(String.valueOf(this.config.getPomodoroCount()));
+		this.timerText.setText(String.valueOf(this.config.getPomodoroTime()));
+		this.breakText.setText(String.valueOf(this.config.getBreakTime()));
+		this.longText.setText(String.valueOf(this.config.getLongBreakTime()));
+		this.freqText.setText(String.valueOf(this.config.getLongBreakFreq()));
 	}
 
 	@Override
