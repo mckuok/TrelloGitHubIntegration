@@ -1,5 +1,7 @@
 package trellogitintegration.eclipse.utils;
 
+import java.util.Arrays;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -136,5 +138,13 @@ public class UIUtils {
     container.setLayoutData(data);
 
     return container;
+  }
+  
+  /**
+   * Remove all children from the parent's UI
+   * @param parent
+   */
+  public static void removeAllChildren(Composite parent) {
+    Arrays.stream(parent.getChildren()).forEach(child -> child.dispose());
   }
 }

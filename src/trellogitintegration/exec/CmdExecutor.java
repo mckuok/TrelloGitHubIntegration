@@ -20,46 +20,6 @@ import java.util.regex.Pattern;
 public class CmdExecutor {
 
   /**
-   * Concurrently executes a terminal command in a different thread, non
-   * blocking. This method is meant to be left alone when it is performing
-   * execution (for example a downloading a large file using curl). However, by
-   * providing a callback argument, one can examine the result of the execution
-   * and perform sequential operations thereafter.
-   * 
-   * @param command
-   *          Command line command, cannot be null or empty
-   * @param workingDir
-   *          Directory where the command should be executed at
-   * @param callback
-   *          asynchronous callback method after execution, can be null
-   */
-  public static void concurrentExecute(String command, File workingDir,
-      CmdCallback callback) {
-    if (command == null || command.isEmpty()) {
-      throw new IllegalArgumentException("Command cannot be null or empty");
-    }
-    if (workingDir == null || !workingDir.isDirectory()) {
-      throw new IllegalArgumentException(
-          "Working directory cannot be null and must" + "be a directory.");
-    }
-
-    Thread thread = new Thread(new Runnable() {
-
-      @Override
-      public void run() {
-        CmdExecutionResult result = null;
-        result = sequentialExecute(command, workingDir);
-        if (callback != null) {
-          callback.callback(result);
-        }
-      }
-
-    });
-
-    thread.start();
-  }
-
-  /**
    * Sequentially execute the provided command. This is a blocking method call,
    * be aware of executing commands that can potentially take long to finish
    * executing. Result of the command is stored in CmdExecutionResult object,

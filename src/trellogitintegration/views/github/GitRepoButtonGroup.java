@@ -9,6 +9,11 @@ import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.exec.git.GitOperation;
 import trellogitintegration.views.github.action.GitOperationActionBuilder;
 
+/**
+ * This class is in charge of creating the button group with git related operations
+ * Created: Nov 10, 2016
+ * @author Man Chon Kuok
+ */
 public class GitRepoButtonGroup extends ButtonGroup {
 
   private final GitManager gitManager;
@@ -19,11 +24,19 @@ public class GitRepoButtonGroup extends ButtonGroup {
   private Button pullRequest;
   private Button log;
 
-  public GitRepoButtonGroup(GitRepoViewGroup parent, GitManager gitManager) {
-    super(parent);
+  /**
+   * Creates a button group for git repo
+   * @param viewGroup 
+   * @param gitManager
+   */
+  public GitRepoButtonGroup(GitRepoViewGroup viewGroup, GitManager gitManager) {
+    super(viewGroup);
     this.gitManager = gitManager;
   }
   
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void addButtonsToContainer(Composite container) {
     this.status = new Button(container, SWT.PUSH);
@@ -43,6 +56,9 @@ public class GitRepoButtonGroup extends ButtonGroup {
     
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void addActionListeners() throws Exception {
     MouseListener mouseListener = GitOperationActionBuilder
@@ -71,9 +87,13 @@ public class GitRepoButtonGroup extends ButtonGroup {
     
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected Button[] getButtons() {
     return new Button[] {this.status, this.switchBranch, this.pullRequest, this.push, this.log};
   }
+
 
 }
