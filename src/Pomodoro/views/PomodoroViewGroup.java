@@ -19,7 +19,7 @@ public class PomodoroViewGroup extends GroupTemplate {
 		
 		ButtonGroup buttonGroup = null;
 		buttonGroup = new PomodoroButtonGroup(this, this.pomodoroExecutor);
-		buttonGroup.addToGUI();
+		buttonGroup.addToGUI(this);
 		this.addControlListener(buttonGroup.getResizeController());
 	}
 }

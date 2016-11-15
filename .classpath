@@ -4,8 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="lib" path="C:/Users/fyyhr/workspace/TrelloGitHubIntegration/libraries/jackson-databind-2.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/fyyhr/workspace/TrelloGitHubIntegration/libraries/jackson-annotations-2.8.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/fyyhr/workspace/TrelloGitHubIntegration/libraries/jackson-core-2.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MC/PDE/trellogithubintegration/libraries/jackson-annotations-2.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MC/PDE/trellogithubintegration/libraries/jackson-core-2.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MC/PDE/trellogithubintegration/libraries/jackson-databind-2.8.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

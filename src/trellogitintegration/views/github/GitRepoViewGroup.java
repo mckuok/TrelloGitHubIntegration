@@ -41,7 +41,6 @@ public class GitRepoViewGroup extends GroupTemplate {
     ValidationUtils.checkNull(parent, gitManager);
 
     this.gitManager = gitManager;
-
    
     this.addBranchInfo();    
     this.updateButtonGroup();    

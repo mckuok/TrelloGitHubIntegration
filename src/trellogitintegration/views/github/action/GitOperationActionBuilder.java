@@ -144,7 +144,7 @@ public class GitOperationActionBuilder {
    * @return a GitOperationButtonListener with all the settings configured
    */
   public GitOperationButtonListener build() {
-    List<InputHandler> handlers = new LinkedList<>();
+    List<GitInputHandler> handlers = new LinkedList<>();
 
     Iterator<GitOperation> operationIterator = this.gitOperationList.iterator();
     Iterator<String> argumentIterator = this.argumentList.iterator();
@@ -157,9 +157,9 @@ public class GitOperationActionBuilder {
 
       if (GitDisplayable.getInputType(operation).equals(InputType.TEXT)
           || GitDisplayable.getInputType(operation).equals(InputType.NONE)) {
-        handlers.add(new TextInputHandler(operation, argument));
+        handlers.add(new GitTextInputHandler(operation, argument));
       } else {
-        handlers.add(new ButtonInputHandler(operation, options));
+        handlers.add(new GitButtonInputHandler(operation, options));
       }
     }
 

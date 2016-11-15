@@ -20,7 +20,7 @@ import trellogitintegration.views.github.CommandDisplayer;
  * 
  * @author Man Chon Kuok
  */
-public class TextInputHandler extends InputHandler {
+public class GitTextInputHandler extends GitInputHandler {
 
   private Text texbox;
 
@@ -32,7 +32,7 @@ public class TextInputHandler extends InputHandler {
    * @param argument
    *          default argument for this git operation, empty if none
    */
-  public TextInputHandler(GitOperation operation, String argument) {
+  public GitTextInputHandler(GitOperation operation, String argument) {
     super(operation, argument);
   }
 

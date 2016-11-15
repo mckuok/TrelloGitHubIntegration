@@ -8,11 +8,12 @@ import trellogitintegration.rest.JsonStringConverter;
 
 public class PullRequestResult extends OperationResult<PullRequestResultMsg> {
 
-  private static final String FAILURE = "Failed";
+  private static final String FAILURE1 = "Failed";
+  private static final String FAILURE2 = "Bad ";
   private final PullRequestResultMsg output;
   
   public PullRequestResult(String pullRequestReply) throws JsonParseException, JsonMappingException, IOException {
-    super(!pullRequestReply.contains(FAILURE));
+    super(!(pullRequestReply.contains(FAILURE1) || pullRequestReply.contains(FAILURE2)));
     if (super.isSuccessful()) {
       this.output = JsonStringConverter.toObject(pullRequestReply, PullRequestSuccessMsg.class);
     } else {
