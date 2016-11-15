@@ -1,10 +1,12 @@
 package trellogitintegration.views.github.action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import trellogitintegration.exec.ResultCallback;
 import trellogitintegration.exec.git.GitDisplayable;
 import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.exec.git.GitOperation;
@@ -35,21 +37,22 @@ public class GitOperationActionBuilder {
   private List<GitOperation> gitOperationList = new LinkedList<>();
   private List<String> argumentList = new ArrayList<>();
   private List<String[]> optionList = new ArrayList<>();
-  private GitRepoViewGroup parent;
+  private List<ResultCallback> callbackList = new ArrayList<>();
+  private GitRepoViewGroup viewGroup;
   private GitManager gitManager;
   private boolean needShell = false;
 
   /**
    * Private constructor to carry states
    * 
-   * @param parent parent of the button
+   * @param viewGroup parent of the button
    * @param gitManager gitManager for the project
    */
-  private GitOperationActionBuilder(GitRepoViewGroup parent,
+  private GitOperationActionBuilder(GitRepoViewGroup viewGroup,
       GitManager gitManager) {
-    ValidationUtils.checkNull(parent, gitManager);
+    ValidationUtils.checkNull(viewGroup, gitManager);
 
-    this.parent = parent;
+    this.viewGroup = viewGroup;
     this.gitManager = gitManager;
   }
 
@@ -131,6 +134,11 @@ public class GitOperationActionBuilder {
     return this;
   }
   
+  public GitOperationActionBuilder addOperationCallback(ResultCallback... callbacks) {
+    this.callbackList.addAll(Arrays.asList(callbacks));    
+    return this;
+  }
+  
   /**
    * Build the GitOperationButtonListener using the previous settings
    * @return a GitOperationButtonListener with all the settings configured
@@ -155,8 +163,8 @@ public class GitOperationActionBuilder {
       }
     }
 
-    return new GitOperationButtonListener(this.parent, this.gitManager,
-        handlers, this.needShell);
+    return new GitOperationButtonListener(this.viewGroup, this.gitManager, handlers,
+        this.callbackList, this.needShell);
   }
 
 }

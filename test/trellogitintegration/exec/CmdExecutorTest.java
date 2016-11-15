@@ -33,20 +33,6 @@ public class CmdExecutorTest {
   }
 
   @Test
-  public void concurrentExecutionSucessTest() throws InterruptedException {
-    CmdExecutor.concurrentExecute("echo abc", this.currentDirectory,
-        new CmdCallback() {
-
-          @Override
-          public void callback(CmdExecutionResult result) {
-            assertEquals("abc\n", result.getOutput());
-          }
-
-        });
-    Thread.sleep(1000);
-  }
-
-  @Test
   public void sequentialGitTest() throws IOException, InterruptedException {
     CmdExecutionResult result = CmdExecutor.sequentialExecute("git --version",
         this.currentDirectory);

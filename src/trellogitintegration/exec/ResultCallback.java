@@ -1,7 +1,5 @@
 package trellogitintegration.exec;
 
-import trellogitintegration.exec.CmdExecutionResult;
-
 /**
  * This class provides method to capture command line result and act on the result 
  * 
@@ -9,16 +7,14 @@ import trellogitintegration.exec.CmdExecutionResult;
  * Created: Oct 16, 2016
  * @author Man Chon Kuok
  */
-public interface CmdCallback {
+public interface ResultCallback {
   
   /**
    * Implement this method to perform asynchronous callback to concurrent execution
    * after the execution is done. 
    * 
-   * @param result Result recorded from command execution. Note that if command
-   * is not recognized, CmdExecutionResult.getException() should be instanceof
-   * {@link CommandUnrecognizedException }
+   * @param result Result from the operation before
    */
-  public void callback(CmdExecutionResult result);
+  public void callback(String result);
   
 }
