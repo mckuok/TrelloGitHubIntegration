@@ -45,7 +45,7 @@ public class AccountAuth {
     Trello trello = new TrelloImpl(APIKey, myToken);
   
     
-    verification(trello);
+    System.out.println(verification(trello));
   }
   
 }
