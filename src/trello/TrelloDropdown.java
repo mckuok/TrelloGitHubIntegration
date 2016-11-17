@@ -28,6 +28,7 @@ public class TrelloDropdown {
     
 }
   
+  
 public static void trell(String input){
   /*
    * Trello API Key ID for allowing application access to user account
@@ -36,7 +37,7 @@ public static void trell(String input){
   
   if(input.equals("GET")){
     task.getCard("https://api.trello.com/1/cards/{0}/actions");
-    //TODO
+    ask("CARD", "LIST", "BOARD");
   }
   if(input.equals("PUT")){
     task.getActionsByCard("https://api.trello.com/1/cards/{0}");

@@ -3,10 +3,7 @@ package trellogitintegration.persist.config;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -17,7 +14,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import trellogitintegration.persist.FileUtils;
+import trellogitintegration.persist.IOUtils;
 
 public class ConfigManagerTest {
 
@@ -31,7 +28,7 @@ public class ConfigManagerTest {
   
   @After
   public void close() {
-    FileUtils.deleteFolder(this.tempDirectory);
+    IOUtils.deleteFolder(this.tempDirectory);
     assertFalse(this.tempDirectory.exists());
   }
   
@@ -77,11 +74,11 @@ public class ConfigManagerTest {
     assertEquals(projectName, savedProjects[0]);
   }
   
-  @Test(expected = FileNotFoundException.class)
+  @Test
   public void loadingNonexistingProjectTest() throws JsonParseException, JsonMappingException, IOException {
     ConfigManager manager = new ConfigManager(this.tempDirectory);
-    manager.loadProjectConfig("inexisting project");
-    fail();
+    ProjectConfig config = manager.loadProjectConfig("inexisting project");
+    assertEquals(new ProjectConfig(), config);
   }
   
   @Test

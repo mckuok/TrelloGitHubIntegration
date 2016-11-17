@@ -27,13 +27,92 @@ package trellogitintegration.persist.config;
  */
 public class ProjectConfig {
   
-  private TrelloConfig trelloConfig = null;
+  private TrelloConfig trelloConfig  = new TrelloConfig();
+  private GitConfig gitConfig = new GitConfig();
+    
+  public class GitConfig {
+    private String token = "";
+    private String username = "";
+    private String repo = "";
+    
+    public GitConfig(){}
+    
+    public GitConfig(String token, String username, String repo) {
+      this.token = token;
+      this.username = username;
+      this.repo = repo;
+    }
 
+    public String getToken() {
+      return token;
+    }
+
+    public void setToken(String token) {
+      this.token = token;
+    }
+
+    public String getUsername() {
+      return username;
+    }
+
+    public void setUsername(String username) {
+      this.username = username;
+    }
+
+    public String getRepo() {
+      return repo;
+    }
+
+    public void setRepo(String repo) {
+      this.repo = repo;
+    }
+
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((repo == null) ? 0 : repo.hashCode());
+      result = prime * result + ((token == null) ? 0 : token.hashCode());
+      result = prime * result + ((username == null) ? 0 : username.hashCode());
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      GitConfig other = (GitConfig) obj;
+      if (repo == null) {
+        if (other.repo != null)
+          return false;
+      } else if (!repo.equals(other.repo))
+        return false;
+      if (token == null) {
+        if (other.token != null)
+          return false;
+      } else if (!token.equals(other.token))
+        return false;
+      if (username == null) {
+        if (other.username != null)
+          return false;
+      } else if (!username.equals(other.username))
+        return false;
+      return true;
+    }
+    
+    
+  }
+  
+  
   public class TrelloConfig {
-    private String url;
-    private String board;
-    private String key;
-    private String token;
+    private String url = "";
+    private String board = "";
+    private String key = "";
+    private String token = "";
   
     public TrelloConfig() {}
     
@@ -124,10 +203,19 @@ public class ProjectConfig {
     this.trelloConfig = trelloConfig;
   }
 
+  public GitConfig getGitConfig() {
+    return gitConfig;
+  }
+
+  public void setGitConfig(GitConfig gitConfig) {
+    this.gitConfig = gitConfig;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
+    result = prime * result + ((gitConfig == null) ? 0 : gitConfig.hashCode());
     result = prime * result
         + ((trelloConfig == null) ? 0 : trelloConfig.hashCode());
     return result;
@@ -142,6 +230,11 @@ public class ProjectConfig {
     if (getClass() != obj.getClass())
       return false;
     ProjectConfig other = (ProjectConfig) obj;
+    if (gitConfig == null) {
+      if (other.gitConfig != null)
+        return false;
+    } else if (!gitConfig.equals(other.gitConfig))
+      return false;
     if (trelloConfig == null) {
       if (other.trelloConfig != null)
         return false;
@@ -149,6 +242,8 @@ public class ProjectConfig {
       return false;
     return true;
   }
+
+  
 
   
   

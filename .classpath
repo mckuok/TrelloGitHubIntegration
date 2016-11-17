@@ -10,5 +10,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/trello4j/Trello4java.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leon/Downloads/TrelloGitHubIntegration-master/libraries/jackson-annotations-2.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leon/Downloads/TrelloGitHubIntegration-master/libraries/jackson-core-2.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leon/Downloads/TrelloGitHubIntegration-master/libraries/jackson-databind-2.8.3.jar"/>
+	<classpathentry kind="lib" path="libraries/com.fasterxml.jackson.core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

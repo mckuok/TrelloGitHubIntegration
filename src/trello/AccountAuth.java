@@ -24,22 +24,29 @@ public class AccountAuth {
     this.APIKey = APIKey;
     this.myToken = myToken;
     
-    Trello trello = new TrelloImpl(APIKey, myToken);
-    trello.getMember(username, myToken);
-    
-    verification(trello);
   }
   
 
-  public void verification(Trello trl){
+  public String verification(Trello trl){
+    public String result = "";
+    
     if(trl != null){
-      System.out.print("Verification successful.");
+      result = "Verification successful.";
     }
     else{
-      System.out.print("Verificaiton failed.");
+      result = "Verificaiton failed.";
     }
+    
+    return result;
   }
   //TrelloException UserExcep = new TrelloException(username + " has allowed access to Trello.");
+  
+  public Trello authentication(String APIKey){
+    Trello trello = new TrelloImpl(APIKey, myToken);
+  
+    
+    verification(trello);
+  }
   
 }
 
