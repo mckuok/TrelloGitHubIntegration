@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import org.trello4j.TrelloImpl;
 import org.trello4j.TrelloURL;
+import org.trello4j.model.Action;
+import org.trello4j.model.Action.Data;
 
 /**
  * @author Leon Qu
@@ -41,7 +43,7 @@ public static void trell(String input){
   }
   if(input.equals("PUT")){
     task.getActionsByCard("https://api.trello.com/1/cards/{0}");
-    //TODO
+    ask("CARD", "LIST", "BOARD");
   }
   if(input.equals("POST")){
     //TODO
