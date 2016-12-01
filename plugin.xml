@@ -47,5 +47,8 @@
          </enabledWhen>
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+   </extension>
 
 </plugin>

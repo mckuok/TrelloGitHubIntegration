@@ -3,18 +3,22 @@
  */
 package trello;
 
-import org.trello4j.Trello;
-import org.trello4j.TrelloException;
-import org.trello4j.TrelloImpl;
-import org.trello4j.TrelloURL;
-import org.trello4j.TrelloUtil;
-import org.trello4j.model.Board;
-import org.trello4j.model.Organization;
-import org.trello4j.model.Token;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Scanner;
+import javax.net.ssl.HttpsURLConnection;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.trello4j.Trello;
+import com.julienvey.trello.Trello;
+import com.julienvey.trello.domain.Board;
+import com.julienvey.trello.domain.Card;
+import com.julienvey.trello.domain.CheckList;
+import com.julienvey.trello.domain.Organization;
+import com.julienvey.trello.impl.TrelloImpl;
 
 /**
  * @author Leon Qu
@@ -23,25 +27,69 @@ import org.trello4j.Trello;
  */
 public class AccountAuth{
   
-  private String myToken = "https://trello.com/1/authorize?expiration=never&amp;scope=read,write,account&amp;response_type=token&amp;name=Server%20Token&amp;key=f7af5802a8798f22ee397600dde10430";
-  private static String APIKey = "f7af5802a8798f22ee397600dde10430";
-  private String username = "";
-  private String OAuthKey = "9d47ec182231e6764fb8d10e97053e18973cd0418ab63fa23a11c977cb717ed7";
+  public String getMyToken = "https://trello.com/1/authorize?expiration=never&name=SinglePurposeToken&key=f7af5802a8798f22ee397600dde10430";
+  public String APIKey = "f7af5802a8798f22ee397600dde10430";
+  public String username = "";
+  public String AuthToken = null;
  
-  public Trello trello = new TrelloImpl(APIKey, myToken);
+  public Trello trello = new TrelloImpl(APIKey, AuthToken);
 
   
-  /*
-   * Constructor for Trello authentication class
+  /**
+   * Asks the user to enter the token given.
+   * @return
    */
-  public AccountAuth(String username, String APIKey, String myToken){
-    this.username = username;
-    AccountAuth.APIKey = APIKey;
-    this.myToken = myToken;
-    
+  public String AuthToken(){
+   Scanner input = new Scanner(System.in);
+   
+   requestUserToken();
+   System.out.println("Enter token code that printed.");
+   
+   AuthToken = input.nextLine();
+   input.close();
+   return AuthToken;
   }
   
 
+  /**
+   * Opens url connection for user to copy token to allow actions 
+   * @param 
+   * @return null
+   */
+  public void requestUserToken(){
+    
+    try {
+      HttpsURLConnection url = (HttpsURLConnection) new URL(getMyToken).openConnection();
+      
+      BufferedReader br = new BufferedReader(new InputStreamReader(url.getInputStream()));
+      
+      String token;
+      
+      while((token = br.readLine()) != null){
+        System.out.println("User token successfully saved.\n");
+        System.out.println(token);
+      }
+      
+      br.close();
+      url.disconnect();
+    }
+    catch (MalformedURLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+  }
+  
+  
+  /**
+   * 
+   * @param trl: the trello object
+   * @return return result: success or not
+   */
   public String verification(Trello trl){
     String result = "";
     
@@ -57,39 +105,10 @@ public class AccountAuth{
   //TrelloException UserExcep = new TrelloException(username + " has allowed access to Trello.");
   
   
-  public void authentication(String APIKey){
-    
+  public void authenticationMsg(String APIKey){
     
     System.out.println(verification(trello));
   }
   
-  /*
-   * Gets the boards in account from trello url and prints in JSON format
-   */
-  public void getTrelloBoard() throws JsonProcessingException{
-    Board boards = null;
-    
-    boards.setUrl("https://api.trello.com/1/boards/{0}");
-    
-    if(checkValidID("4f92b99b5c92e5cd28006ee8") == true){
-      boards = trello.getBoard("4f92b99b5c92e5cd28006ee8");
-    }
-    
-    ObjectMapper mapper = new ObjectMapper();
-
-    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-
-    mapper.writeValueAsString(boards);
-  }
-  
-  
-  public boolean checkValidID(String s){
-    if(TrelloUtil.isObjectIdValid(s)){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
 }
 

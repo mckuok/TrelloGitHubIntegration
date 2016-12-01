@@ -13,10 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import org.trello4j.TrelloImpl;
-import org.trello4j.TrelloURL;
-import org.trello4j.model.Action;
-import org.trello4j.model.Action.Data;
+import com.julienvey.trello.Trello;
+import com.julienvey.trello.impl.TrelloImpl;
 
 /**
  * @author Leon Qu
@@ -35,14 +33,16 @@ public static void trell(String input){
   /*
    * Trello API Key ID for allowing application access to user account
    */
-  TrelloImpl task = new TrelloImpl("f7af5802a8798f22ee397600dde10430");
+  String Token = "9d47ec182231e6764fb8d10e97053e18973cd0418ab63fa23a11c977cb717ed7"; 
+  
+  Trello trelloAPI = new TrelloImpl("f7af5802a8798f22ee397600dde10430", Token);
   
   if(input.equals("GET")){
-    task.getCard("https://api.trello.com/1/cards/{0}/actions");
+    trelloAPI.getCard("https://api.trello.com/1/cards/{0}/actions");
     ask("CARD", "LIST", "BOARD");
   }
   if(input.equals("PUT")){
-    task.getActionsByCard("https://api.trello.com/1/cards/{0}");
+    trelloAPI.getActionCard("https://api.trello.com/1/cards/{0}");
     ask("CARD", "LIST", "BOARD");
   }
   if(input.equals("POST")){
