@@ -25,19 +25,19 @@ public class PomodoroButtonGroup extends ButtonGroup{
 		this.start = new Button(container, SWT.PUSH);
 		this.start.setText("Start Timer");
 		
-		this.pause = new Button(container, SWT.PUSH);
-		this.pause.setText("Pause");
+//		this.pause = new Button(container, SWT.PUSH);
+//		this.pause.setText("Pause");
 	}
 	
 	@Override
 	protected void addActionListeners() throws Exception {
 		this.start.addMouseListener(new PomodoroStartListener(this.pomodoroExecutor));
-		this.pause.addMouseListener(new PomodoroPauseListener(this.pomodoroExecutor));
+		//this.pause.addMouseListener(new PomodoroPauseListener(this.pomodoroExecutor));
 	}
 	
 	@Override
 	protected Button[] getButtons() {
-		return new Button[] {this.start, this.pause};
+		return new Button[] {this.start /*, this.pause*/};
 	}
 	
 	

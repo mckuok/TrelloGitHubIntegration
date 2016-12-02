@@ -1,6 +1,5 @@
 package pomodoro.views;
 
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
 
 import pomodoro.exec.PomodoroExecutor;
@@ -20,6 +19,7 @@ public class PomodoroViewGroup extends GroupTemplate {
 		ButtonGroup buttonGroup = null;
 		buttonGroup = new PomodoroButtonGroup(this, this.pomodoroExecutor);
 		buttonGroup.addToGUI(this);
+		buttonGroup.addToGUI(parent);
 		this.addControlListener(buttonGroup.getResizeController());
 	}
 }

@@ -1,5 +1,11 @@
 package pomodoro.exec;
 
+import java.awt.Frame;
+
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import pomodoro.PomodoroTimer;
 
 /** 
@@ -207,6 +213,15 @@ public class PomodoroExecutor implements Runnable{
 	}
 	
 	public void isFinished() {
-		System.out.println("Done");
+		Frame f = new Frame();
+		JDialog jd = new JDialog(f, "Finished", false);
+		f.setSize(200, 200);
+		jd.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		jd.setSize(200,200);
+		jd.setLocation(200,200);
+		jd.setLocationRelativeTo(null);
+		JLabel finishText = new JLabel("All pomodoros have finished", JLabel.CENTER);
+		jd.add(finishText);
+		jd.setVisible(true);
 	}
 }
