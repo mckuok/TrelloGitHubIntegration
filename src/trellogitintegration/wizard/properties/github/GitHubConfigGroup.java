@@ -46,8 +46,9 @@ public class GitHubConfigGroup extends GroupTemplate implements WizardActions {
     this.gridData = gridData;
 
     UIUtils.addLabel(this, REPO_URL);
+    String url = "https://github.com/" + this.gitConfig.getUsername() + "/" + this.gitConfig.getRepo();
     this.repoText = UIUtils.addInputTextBox(this, this.gridData,
-        this.gitConfig.getRepo(), "Repo URL ex) https://github.com/mckuok/gitpractice");
+        url, "Repo URL ex) https://github.com/mckuok/gitpractice");
     UIUtils.addLabel(this, GITHUB_TOKEN);
     this.tokenText = UIUtils.addInputTextBox(this, this.gridData,
         this.gitConfig.getToken(), "Token from the GitHub Settings");
@@ -58,7 +59,10 @@ public class GitHubConfigGroup extends GroupTemplate implements WizardActions {
    */
   @Override
   public void save() {
-    this.gitConfig.setRepo(this.repoText.getText());
+    String url = this.repoText.getText();
+    String[] usernameRepoPair = url.replace("https://github.com/", "").replace("http://github.com/", "").replace("github.com/", "").split("/");
+    this.gitConfig.setUsername(usernameRepoPair[0]);
+    this.gitConfig.setRepo(usernameRepoPair[1]);
     this.gitConfig.setToken(this.tokenText.getText());
   }
 
