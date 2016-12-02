@@ -20,7 +20,7 @@ import trellogitintegration.views.github.CommandDisplayer;
  * 
  * @author Man Chon Kuok
  */
-public class ButtonInputHandler extends InputHandler {
+public class GitButtonInputHandler extends GitInputHandler {
 
   private String[] options;
   private Button[] buttons;
@@ -33,7 +33,7 @@ public class ButtonInputHandler extends InputHandler {
    * @param options
    *          options for the buttons
    */
-  public ButtonInputHandler(GitOperation operation, String[] options) {
+  public GitButtonInputHandler(GitOperation operation, String[] options) {
     super(operation, "");
     this.options = options;
     this.buttons = new Button[this.options.length];

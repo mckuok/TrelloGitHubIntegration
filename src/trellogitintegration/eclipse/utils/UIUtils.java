@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import trellogitintegration.utils.ValidationUtils;
@@ -25,9 +26,10 @@ public class UIUtils {
    * @param text
    *          default lable message
    */
-  public static void addLabel(Composite parent, String text) {
+  public static Label addLabel(Composite parent, String text) {
     Label label = new Label(parent, SWT.NONE);
     label.setText(text);
+    return label;
   }
 
   /**
@@ -139,6 +141,24 @@ public class UIUtils {
 
     return container;
   }
+  
+  
+  public static Shell createDialogue(Composite parent, String title, int numOfColumns) {
+    Shell dialogue = new Shell(parent.getDisplay());
+    GridLayout layout = new GridLayout();
+    layout.numColumns = numOfColumns;
+    dialogue.setLayout(layout);
+
+    GridData data = new GridData();
+    data.verticalAlignment = GridData.FILL;
+    data.horizontalAlignment = GridData.FILL;
+    dialogue.setLayoutData(data);
+
+    dialogue.setText(title);
+
+    return dialogue;
+  }
+
   
   /**
    * Remove all children from the parent's UI

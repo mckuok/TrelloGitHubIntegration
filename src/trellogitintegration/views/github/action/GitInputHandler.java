@@ -15,7 +15,7 @@ import trellogitintegration.views.github.CommandDisplayer;
  * 
  * @author Man Chon Kuok
  */
-public abstract class InputHandler {
+public abstract class GitInputHandler {
 
   private boolean needsUserInput;
   protected String argument;
@@ -30,7 +30,7 @@ public abstract class InputHandler {
    * @param argument
    *          argument for this operation, can be empty if it needs user input
    */
-  public InputHandler(GitOperation operation, String argument) {
+  public GitInputHandler(GitOperation operation, String argument) {
     ValidationUtils.checkNull(operation);
 
     this.argument = argument == null ? "" : argument;
