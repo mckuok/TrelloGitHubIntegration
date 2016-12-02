@@ -47,6 +47,7 @@ public class PomodoroExecutor implements Runnable{
 	 * This function initializes all timer fields and booleans, setting the current timer to the Pomodoro work time
 	 */
 	public void initTimer() {
+		this.getTimer().refreshPomodoroTimer();
 		/* set normal timer */
 		this.setPomodoroTimeRemaining(this.getTimer().getPomodoroTime());
 		/* set break timer */
@@ -113,17 +114,21 @@ public class PomodoroExecutor implements Runnable{
 					} else if ((this.getCurrentPomodoro() % this.getTimer().getLongBreakFreq()) == 0) {
 						/* if it's time for a long break */
 						this.currentCountdown = currentTimer.LONGBREAK;
+						this.newPopUp("Long break time", "Time to take an extended break!");
 					} else {
 						/* if it's time for a normal break */
 						this.currentCountdown = currentTimer.BREAK;
+						this.newPopUp("Break time", "Time to take a break!");
 					}
 					this.incrementCurrentPomodoro();
 					break;
 				case BREAK:
 					this.currentCountdown = currentTimer.POMODORO;
+					this.newPopUp("Back to work", "Break time is over");
 					break;
 				case LONGBREAK:
 					this.currentCountdown = currentTimer.POMODORO;
+					this.newPopUp("Back to work", "Break time is over");
 					break;
 				case FINISHED:
 					this.isFinished();
@@ -213,15 +218,20 @@ public class PomodoroExecutor implements Runnable{
 	}
 	
 	public void isFinished() {
+		this.newPopUp("Finished", "All timers have completed");
+	}
+	
+	public void newPopUp(String title, String body) {
 		Frame f = new Frame();
-		JDialog jd = new JDialog(f, "Finished", false);
+		JDialog jd = new JDialog(f, title, false);
 		f.setSize(200, 200);
 		jd.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		jd.setSize(200,200);
+		jd.setSize(400,300);
 		jd.setLocation(200,200);
 		jd.setLocationRelativeTo(null);
-		JLabel finishText = new JLabel("All pomodoros have finished", JLabel.CENTER);
+		JLabel finishText = new JLabel(body, JLabel.CENTER);
 		jd.add(finishText);
+		jd.toFront();
 		jd.setVisible(true);
 	}
 }

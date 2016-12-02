@@ -18,14 +18,17 @@ public class PomodoroTimer {
 	 * @param config The PomodoroConfig that will generate the times for the pomodoro
 	 *
 	 */
-	public PomodoroTimer(PomodoroConfig config) {
-		
-		/* set values */
-		this.setPomodoroTime(config.getPomodoroTime());
-		this.setPomodoros(config.getPomodoroCount());
-		this.setBreakTime(config.getBreakTime());
-		this.setLongBreakTime(config.getLongBreakTime());
-		this.setLongBreakFreq(config.getLongBreakFreq());
+	public PomodoroTimer(PomodoroConfig config) {		
+		this.config = config;
+		this.refreshPomodoroTimer();
+	}
+	
+	public void refreshPomodoroTimer() {
+		this.setPomodoroTime(this.config.getPomodoroTime());
+		this.setPomodoros(this.config.getPomodoroCount());
+		this.setBreakTime(this.config.getBreakTime());
+		this.setLongBreakTime(this.config.getLongBreakTime());
+		this.setLongBreakFreq(this.config.getLongBreakFreq());
 	}
 
 	public long getPomodoroTime() {
@@ -65,4 +68,5 @@ public class PomodoroTimer {
 	private long breakTime;
 	private long longBreakTime;
 	private long longBreakFreq;
+	private PomodoroConfig config;
 }
