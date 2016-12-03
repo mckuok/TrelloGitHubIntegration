@@ -5,6 +5,7 @@ import java.util.List;
 public class PullRequestErrorMsg extends PullRequestResultMsg {
 
   private List<Error> errors;
+  private String message;
   
   public PullRequestErrorMsg(){};
   
@@ -45,6 +46,10 @@ public class PullRequestErrorMsg extends PullRequestResultMsg {
   public List<Error> getErrors() {
     return errors;
   }
+  
+  public String getMessage() {
+    return message;
+  }
 
   @Override
   public int hashCode() {
@@ -76,9 +81,13 @@ public class PullRequestErrorMsg extends PullRequestResultMsg {
    */
   @Override
   public String getDisplayableMessage() {
-    StringBuilder stringBuilder = new StringBuilder();
-    this.errors.stream().forEach(error -> stringBuilder.append(error.getMessage() + "\n"));
-    return stringBuilder.toString();
+    if (errors != null) {
+      StringBuilder stringBuilder = new StringBuilder();
+      this.errors.stream().forEach(error -> stringBuilder.append(error.getMessage() + "\n"));
+      return stringBuilder.toString();
+    } else {
+      return this.message;
+    }
   }
 
     

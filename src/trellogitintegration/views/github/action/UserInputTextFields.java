@@ -1,4 +1,4 @@
-package trellogitintegration.views.github;
+package trellogitintegration.views.github.action;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import trellogitintegration.eclipse.utils.UIUtils;
 import trellogitintegration.utils.ValidationUtils;
-import trellogitintegration.views.github.action.InputHandler;
+import trellogitintegration.views.github.CommandDisplayer;
 
 /**
  * This class creates an input dialogue for user input. The input field is
@@ -18,10 +18,10 @@ import trellogitintegration.views.github.action.InputHandler;
  * 
  * @author Man Chon Kuok
  */
-public class UserInputDialogue {
+public class UserInputTextFields {
 
   private final Composite parent;
-  private List<InputHandler> inputHandlers = new LinkedList<>();
+  private List<GitInputHandler> inputHandlers = new LinkedList<>();
 
   /**
    * Creates an InputDialogue
@@ -32,7 +32,7 @@ public class UserInputDialogue {
    *          a list of input handlers that need to be displayed in this
    *          dialogue
    */
-  public UserInputDialogue(Composite parent, List<InputHandler> inputHandlers) {
+  public UserInputTextFields(Composite parent, List<GitInputHandler> inputHandlers) {
     ValidationUtils.checkNull(parent, inputHandlers);
 
     this.parent = parent;
@@ -46,7 +46,7 @@ public class UserInputDialogue {
   public void addInputFieldsToGUI() {
     Composite container = UIUtils.createContainer(this.parent, 2);
 
-    Iterator<InputHandler> inputFieldsIterator = this.inputHandlers.iterator();
+    Iterator<GitInputHandler> inputFieldsIterator = this.inputHandlers.iterator();
     while (inputFieldsIterator.hasNext()) {
       inputFieldsIterator.next().addToGUI(container);
     }
@@ -62,7 +62,7 @@ public class UserInputDialogue {
   public void attachToDisplay(CommandDisplayer display) {
     ValidationUtils.checkNull(display);
 
-    Iterator<InputHandler> inputFieldsIterator = this.inputHandlers.iterator();
+    Iterator<GitInputHandler> inputFieldsIterator = this.inputHandlers.iterator();
     while (inputFieldsIterator.hasNext()) {
       inputFieldsIterator.next().attachToDisplay(display);
     }

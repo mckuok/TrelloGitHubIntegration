@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.dialogs.PropertyPage;
 
+import pomodoro.views.PomodoroConfigGroup;
 import trellogitintegration.Activator;
 import trellogitintegration.eclipse.utils.UIUtils;
 import trellogitintegration.persist.config.ConfigManager;
@@ -35,6 +36,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
   private ProjectConfig projectConfig;
 
   private GitHubConfigGroup gitHubGroup;
+  private PomodoroConfigGroup pomodoroGroup;
 
   /**
    * Constructor for GitHubTrelloPropertyPage.
@@ -58,6 +60,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
     this.gitHubGroup = new GitHubConfigGroup(container, gridData,
         this.projectConfig.getGitConfig());
     UIUtils.addSeparator(container);
+    this.pomodoroGroup = new PomodoroConfigGroup(container, gridData, this.projectConfig.getPomodoroConfig());
 
     return container;
   }
@@ -119,6 +122,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
   protected void performDefaults() {
     super.performDefaults();
     this.gitHubGroup.returnDefault();
+    this.pomodoroGroup.returnDefault();
   }
 
   /**
@@ -127,7 +131,8 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
   @Override
   public boolean performOk() {
     this.gitHubGroup.save();
-
+    this.pomodoroGroup.save();
+    
     return persistConfig();
   }
 
@@ -137,6 +142,7 @@ public class GitHubTrelloPropertyPage extends PropertyPage {
   @Override
   public void performApply() {
     this.gitHubGroup.apply();
+    this.pomodoroGroup.apply();
 
     persistConfig();
   }

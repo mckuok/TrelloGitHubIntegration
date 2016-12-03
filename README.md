@@ -4,6 +4,7 @@ For our proposed project, we wanted to create an plugin for Eclipse IDE that wou
 
 ## Libraries
 
-* Jackson (http://wiki.fasterxml.com/JacksonHome) for converting Java class object from and to JSON String. 
+* Jackson (http://wiki.fasterxml.com/JacksonHome) for converting Java class object from and to JSON String.  
+* Trello4j
 
  

@@ -29,7 +29,7 @@ public class GitRepoViewGroup extends GroupTemplate {
   private Composite buttonContainer;
   
   /**
-   * Create a GitHub group for the viwe UI
+   * Create a GitHub group for the view UI
    * 
    * @param parent
    * @param gitManager
@@ -41,7 +41,6 @@ public class GitRepoViewGroup extends GroupTemplate {
     ValidationUtils.checkNull(parent, gitManager);
 
     this.gitManager = gitManager;
-
    
     this.addBranchInfo();    
     this.updateButtonGroup();    

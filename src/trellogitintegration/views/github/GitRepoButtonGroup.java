@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.exec.git.GitOperation;
 import trellogitintegration.views.github.action.GitOperationActionBuilder;
+import trellogitintegration.views.github.action.PullRequestHandler;
 
 /**
  * This class is in charge of creating the button group with git related operations
@@ -17,7 +18,7 @@ import trellogitintegration.views.github.action.GitOperationActionBuilder;
 public class GitRepoButtonGroup extends ButtonGroup {
 
   private final GitManager gitManager;
-
+  
   private Button status;
   private Button push;
   private Button switchBranch;
@@ -61,11 +62,13 @@ public class GitRepoButtonGroup extends ButtonGroup {
    */
   @Override
   protected void addActionListeners() throws Exception {
+    String currentBranch = this.gitManager.getCurrentBranch();
+    
     MouseListener mouseListener = GitOperationActionBuilder
         .create(this.getViewGroup(), this.gitManager).addOperation(GitOperation.ADD_ALL)
         .addOperation(GitOperation.COMMIT).thatNeedsUserInput()
         .addOperation(GitOperation.PUSH)
-        .withFixedArgument(this.gitManager.getCurrentBranch())
+        .withFixedArgument(currentBranch)
         .build();
 
     this.push.addMouseListener(mouseListener);
@@ -84,6 +87,8 @@ public class GitRepoButtonGroup extends ButtonGroup {
         .addOperation(GitOperation.LOG).build();
     this.log.addMouseListener(mouseListener);
 
+    this.pullRequest.addMouseListener(new PullRequestHandler(this.getViewGroup(), this.gitManager));
+    
     
   }
 

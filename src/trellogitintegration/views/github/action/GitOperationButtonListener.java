@@ -7,7 +7,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
 
@@ -18,7 +17,6 @@ import trellogitintegration.exec.git.GitManager;
 import trellogitintegration.utils.ValidationUtils;
 import trellogitintegration.views.github.CommandDisplayer;
 import trellogitintegration.views.github.GitRepoViewGroup;
-import trellogitintegration.views.github.UserInputDialogue;
 
 /**
  * Listener in charge of performing git related operations when their button is
@@ -33,7 +31,7 @@ import trellogitintegration.views.github.UserInputDialogue;
 public class GitOperationButtonListener implements MouseListener {
 
   private final GitRepoViewGroup viewGroup;
-  private final List<InputHandler> inputHandlerList;
+  private final List<GitInputHandler> inputHandlerList;
   private final List<ResultCallback> callbackList;
   private final boolean needShell;
   private final GitManager gitManager;
@@ -52,7 +50,7 @@ public class GitOperationButtonListener implements MouseListener {
    *          true if the button should pop up a new shell for argument input
    */
   public GitOperationButtonListener(GitRepoViewGroup viewGroup,
-      GitManager gitManager, List<InputHandler> inputHandlerList, List<ResultCallback> callbackList,
+      GitManager gitManager, List<GitInputHandler> inputHandlerList, List<ResultCallback> callbackList,
       boolean needShell) {
     ValidationUtils.checkNull(viewGroup, gitManager, inputHandlerList);
 
@@ -86,9 +84,9 @@ public class GitOperationButtonListener implements MouseListener {
   @Override
   public void mouseUp(MouseEvent e) {
     if (this.needShell) {
-      Shell dialogue = this.createDialogue();
+      Shell dialogue = UIUtils.createDialogue(this.viewGroup, "Arguments", 1);
 
-      UserInputDialogue inputDialogue = new UserInputDialogue(dialogue,
+      UserInputTextFields inputDialogue = new UserInputTextFields(dialogue,
           this.inputHandlerList);
       inputDialogue.addInputFieldsToGUI();
 
@@ -143,39 +141,17 @@ public class GitOperationButtonListener implements MouseListener {
   }
 
   /**
-   * Create a shell for dialogue for argument input and a view to show commands
-   * to be executed
-   * 
-   * @return a create shell
-   */
-  private Shell createDialogue() {
-    Shell dialogue = new Shell(this.viewGroup.getDisplay());
-    GridLayout layout = new GridLayout();
-    layout.numColumns = 1;
-    dialogue.setLayout(layout);
-
-    GridData data = new GridData();
-    data.verticalAlignment = GridData.FILL;
-    data.horizontalAlignment = GridData.FILL;
-    dialogue.setLayoutData(data);
-
-    dialogue.setText("Arguments");
-
-    return dialogue;
-  }
-
-  /**
    * Executes the series of commands associated with this button. If one of the
    * commands failed to execute, the following commands do not get executed. The
    * output of the execution will get displayed in the output area.
    */
   private void executeCommandsForButton() {
     StringBuilder output = new StringBuilder();
-    Iterator<InputHandler> inputIterator = this.inputHandlerList.iterator();
+    Iterator<GitInputHandler> inputIterator = this.inputHandlerList.iterator();
 
     try {
       while (inputIterator.hasNext()) {
-        InputHandler handler = inputIterator.next();
+        GitInputHandler handler = inputIterator.next();
         OperationResult<String> result = this.gitManager
             .execute(handler.getOperation(), handler.getUserInput());
         output.append(result.getDisplayableMessage()).append("\n");

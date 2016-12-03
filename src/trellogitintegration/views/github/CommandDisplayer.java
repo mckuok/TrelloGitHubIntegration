@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 import trellogitintegration.utils.ValidationUtils;
-import trellogitintegration.views.github.action.InputHandler;
+import trellogitintegration.views.github.action.GitInputHandler;
 
 /**
  * This class creates a text field for displaying commands and its arguments
@@ -24,7 +24,7 @@ public class CommandDisplayer {
   private final Composite parent;
 
   private Text displayArea;
-  private List<InputHandler> inputHandlerList;
+  private List<GitInputHandler> inputHandlerList;
 
   /**
    * Create a display text field to display executing commands
@@ -35,7 +35,7 @@ public class CommandDisplayer {
    *          list of input handlers that this displayer is watching 
    */
   public CommandDisplayer(Composite parent,
-      List<InputHandler> inputHandlerList) {
+      List<GitInputHandler> inputHandlerList) {
     ValidationUtils.checkNull(parent, inputHandlerList);
 
     this.parent = parent;
@@ -58,10 +58,10 @@ public class CommandDisplayer {
    */
   private String reconstructOutput() {
     StringBuilder stringBuilder = new StringBuilder();
-    Iterator<InputHandler> inputIterator = this.inputHandlerList.iterator();
+    Iterator<GitInputHandler> inputIterator = this.inputHandlerList.iterator();
 
     while (inputIterator.hasNext()) {
-      InputHandler input = inputIterator.next();
+      GitInputHandler input = inputIterator.next();
       stringBuilder.append(String.format(input.getOperation().getCommand(),
           input.getUserInput())).append("\n\n");
     }

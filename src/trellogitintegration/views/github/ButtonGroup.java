@@ -7,6 +7,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import pomodoro.views.PomodoroViewGroup;
 import trellogitintegration.eclipse.utils.UIUtils;
 
 /**
@@ -17,18 +18,26 @@ import trellogitintegration.eclipse.utils.UIUtils;
  */
 public abstract class ButtonGroup {
 
-  private final GitRepoViewGroup viewGroup;
+	private final GitRepoViewGroup viewGroup;
+  private final PomodoroViewGroup pomodoroParent;
   private Composite container;
   private ButtonResizeController resizeController;
   
+
   /**
    * Creates a button group
    * @param viewGroup
    */
   public ButtonGroup(GitRepoViewGroup viewGroup) {
     this.viewGroup = viewGroup;
+    this.pomodoroParent = null;
   }
-  
+  public ButtonGroup(PomodoroViewGroup pomodoroParent) {
+  	this.container = UIUtils.createContainer(pomodoroParent, 1);
+  	this.pomodoroParent = pomodoroParent;
+  	this.viewGroup = null;
+  }
+
   /**
    * Add the buttons to the container
    * @param container
@@ -66,6 +75,9 @@ public abstract class ButtonGroup {
     return this.viewGroup;
   }
   
+  public PomodoroViewGroup getPomodoroViewGroup() {
+  	return this.pomodoroParent;
+  }
   /**
    * Get back the resize controller, must be called after addToGUI
    * @return a ButtonResizeController
