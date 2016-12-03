@@ -1,4 +1,4 @@
-package pomodoro.views;
+package Pomodoro.views;
 
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;

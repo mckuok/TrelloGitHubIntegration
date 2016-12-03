@@ -1,4 +1,4 @@
-package pomodoro.views;
+package Pomodoro.views;
 
 
 import java.awt.Frame;
@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
-import pomodoro.exec.PomodoroExecutor;
+import Pomodoro.exec.PomodoroExecutor;
 
 public class PomodoroStartListener implements MouseListener{
 	private PomodoroExecutor pomodoroExecutor;

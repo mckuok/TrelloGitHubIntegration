@@ -1,4 +1,4 @@
-package pomodoro;
+package Pomodoro;
 
 import trellogitintegration.persist.config.ProjectConfig.PomodoroConfig;
 

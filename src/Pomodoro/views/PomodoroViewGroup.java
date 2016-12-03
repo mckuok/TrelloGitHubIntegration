@@ -1,8 +1,8 @@
-package pomodoro.views;
+package Pomodoro.views;
 
 import org.eclipse.swt.widgets.Composite;
 
-import pomodoro.exec.PomodoroExecutor;
+import Pomodoro.exec.PomodoroExecutor;
 import trellogitintegration.utils.ValidationUtils;
 import trellogitintegration.views.github.ButtonGroup;
 import trellogitintegration.wizard.properties.utils.GroupTemplate;

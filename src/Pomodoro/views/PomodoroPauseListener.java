@@ -1,10 +1,10 @@
-package pomodoro.views;
+package Pomodoro.views;
 
 
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
-import pomodoro.exec.PomodoroExecutor;
+import Pomodoro.exec.PomodoroExecutor;
 
 public class PomodoroPauseListener implements MouseListener{
 	private PomodoroExecutor pomodoroExecutor;

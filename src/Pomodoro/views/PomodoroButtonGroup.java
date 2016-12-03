@@ -1,4 +1,4 @@
-package pomodoro.views;
+package Pomodoro.views;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -6,7 +6,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import pomodoro.exec.PomodoroExecutor;
+import Pomodoro.exec.PomodoroExecutor;
 import trellogitintegration.views.github.ButtonGroup;
 
 public class PomodoroButtonGroup extends ButtonGroup{
