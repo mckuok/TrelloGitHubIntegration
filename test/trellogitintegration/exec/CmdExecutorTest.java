@@ -8,7 +8,11 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.junit.Test;
-
+/**
+ * Test
+ * @author MC
+ *
+ */
 public class CmdExecutorTest {
 
   private static final String INVALID_PROGRAM_TEMPLATE = "Cannot run program";
