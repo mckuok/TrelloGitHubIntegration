@@ -9,6 +9,11 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
+/**
+ * Unit test
+ * @author MC
+ *
+ */
 public class CmdExecutorTest {
 
   private static final String INVALID_PROGRAM_TEMPLATE = "Cannot run program";
