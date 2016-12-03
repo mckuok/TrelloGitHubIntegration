@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 /**
- * Unit Test
+ * Unit Test for cmd
  * @author MC
  *
  */
